@@ -64,6 +64,9 @@ public class IntListTest {
         IntList exp = IntList.list(1, 2, 3, 4, 5, 6);
         assertEquals(exp, IntList.catenate(A, B));
         assertEquals(IntList.list(1, 2, 3), A);
+        System.out.println(IntList.catenate(A, B));
+        System.out.println(A);
+        System.out.println(B);
     }
 
 }

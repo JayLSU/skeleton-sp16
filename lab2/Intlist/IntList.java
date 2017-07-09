@@ -71,6 +71,12 @@ public class IntList {
         return new IntList(L.head * L.head, squareListRecursive(L.tail));
     }
 
+    public static IntList copyListRecursive(IntList L) {
+        if (L == null) {
+            return null;
+        }
+        return new IntList(L.head, copyListRecursive(L.tail));
+    }
     /** DO NOT MODIFY ANYTHING ABOVE THIS LINE! */
 
 
@@ -80,8 +86,16 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        if (A == null) {
+            A = B;
+            return A;
+        }
+        IntList temp = A;
+        while (temp.tail != null) {
+            temp =temp.tail;
+        }
+        temp.tail = B;
+        return A;
     }
 
     /**
@@ -89,9 +103,10 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
-    }
+        IntList temp1 = copyListRecursive(A);
+        IntList temp2 = copyListRecursive(B);
+        return dcatenate(temp1, temp2);
+        }
 
 
     /**
