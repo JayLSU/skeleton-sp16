@@ -27,7 +27,7 @@ public class StdDrawDemo {
 		StdDraw.picture(75, -75, imageToDraw);
 
 		/* Shows the drawing to the screen, and waits 2000 milliseconds. */	
-		StdDraw.show(2000);		
+		StdDraw.show(2000);
 	}
 
 	/* Draws random copies of the image, clearing in between
