@@ -29,12 +29,7 @@ public class NBody{
 		String filename = args[2];
 		Planet[] p = readPlanets(filename);
 		double r = readRadius(filename);
-		//StdDraw.setScale(-r, r);
-		//StdDraw.picture(0,0,"starfield.jpg");
 		int N = p.length;
-		//for (int i = 0; i < N; i++){
-		//	p[i].draw();
-		//}
 		//StdAudio.play("2001.mid");
 		double ecllipseT = 0;
 		while (ecllipseT < T){
