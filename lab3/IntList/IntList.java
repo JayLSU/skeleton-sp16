@@ -109,6 +109,23 @@ public class IntList {
         }
 
 
+    public static IntList reverse(IntList L){
+        if (L == null){
+            return null;
+        }
+        IntList FrontOfReversed = null;
+        IntList NextToAdd = L;
+        while(NextToAdd != null){
+            IntList RestList = NextToAdd.tail;
+            NextToAdd.tail = FrontOfReversed;
+            FrontOfReversed = NextToAdd;
+            NextToAdd = RestList;
+        }
+        L = FrontOfReversed;
+        return L;
+    }
+
+
     /**
      * DO NOT MODIFY ANYTHING BELOW THIS LINE! Many of the concepts below here
      * will be introduced later in the course or feature some form of advanced
