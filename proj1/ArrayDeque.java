@@ -146,8 +146,9 @@ public class ArrayDeque<Blorp>{
 		}
 		size -= 1;
 		front = this.addOne(front);
+		Blorp temp = this.items[front];
 		this.items[front] = null;
-		return this.items[addOne(front)];		
+		return temp;
 	}
 
 	// removeLast method: Removes and retruns the item at the back of the Deque. If no such item exists, returns null.
@@ -161,8 +162,9 @@ public class ArrayDeque<Blorp>{
 		}
 		size -= 1;
 		back = this.minusOne(back);
+		Blorp temp = this.items[front];
 		this.items[back] = null;
-		return this.items[minusOne(back)];	
+		return temp;
 	}
 
 	// get mehod: Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth. If no
@@ -181,6 +183,7 @@ public class ArrayDeque<Blorp>{
 	
 	/*public static void main(String[] args) {
 		ArrayDeque<Integer> A1 = new ArrayDeque<Integer>();
+		int temp;
 		A1.addFirst(0);
 		for(int i = 1 ; i <16;i++){
 			A1.addLast(i);
@@ -208,6 +211,9 @@ public class ArrayDeque<Blorp>{
 		}
 		A1.printDeque();
 		System.out.println("front is " + A1.front + " back is " + A1.back);
+		temp = A1.removeFirst();
+		System.out.println("The removed item is " + temp);
+		A1.printDeque();
 	}*/
 	
 }

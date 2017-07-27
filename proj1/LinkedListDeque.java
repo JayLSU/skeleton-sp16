@@ -93,10 +93,11 @@ public class LinkedListDeque<Blorp>{
 		size -= 1;
 		LinkedListNode last = sentinel.next.pre;
 		LinkedListNode newfront = sentinel.next.next;
+		Blorp removed_item = sentinel.next.item;
 		sentinel.next = newfront;
 		newfront.pre = last;
 		last.next = newfront;
-		return sentinel.next.item;
+		return removed_item;
 	}
 
 	// removeLast method: Removes and retruns the item at the back of the Deque. If no such item exists, returns null.
@@ -106,10 +107,11 @@ public class LinkedListDeque<Blorp>{
 		}
 		size -= 1;
 		LinkedListNode front = sentinel.next;
+		Blorp removed_item = sentinel.next.pre.item;
 		LinkedListNode newlast = front.pre.pre;
 		front.pre = newlast;
 		newlast.next = front;
-		return sentinel.next.item;
+		return removed_item;
 	}
 
 	// get mehod: Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth. If no
@@ -151,12 +153,12 @@ public class LinkedListDeque<Blorp>{
 		System.out.println("Index = 6; The obtained item is " + l1.getRecursive(6));
 		System.out.println("Index = 2; The obtained item is " + l1.getRecursive(2));
 		System.out.println("List size: " + l1.size());
-		l1.removeFirst();
+		int removed1 = l1.removeFirst();
 		l1.printDeque();
-		System.out.println("List size: " + l1.size());
-		l1.removeLast();
+		System.out.println("List size: " + l1.size() + ". The removed item is: " + removed1);
+		int removed2 = l1.removeLast();
 		l1.printDeque();
-		System.out.println("List size: " + l1.size());
+		System.out.println("List size: " + l1.size()+ ". The removed item is: " + removed2);
 		l1.removeFirst();
 		l1.printDeque();
 		System.out.println("List size: " + l1.size());		
@@ -170,6 +172,6 @@ public class LinkedListDeque<Blorp>{
 		LinkedListDeque<Integer> l2 = new LinkedListDeque<Integer>();
 		l2.printDeque();
 		System.out.println(l2.sentinel.next.item);
-	}
-	*/
+	}*/
+
 }
