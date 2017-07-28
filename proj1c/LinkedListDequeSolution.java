@@ -7,7 +7,8 @@
   * make it implement your Deque interface. */
 import java.util.LinkedList;
 
-public class LinkedListDequeSolution<Item> extends LinkedList<Item> {
+public class LinkedListDequeSolution<Item> extends LinkedList<Item> implements Deque<Item> {
+    @Override
     public void printDeque() {
         for (Item x : this) {
             System.out.print(x + " ");
@@ -23,6 +24,7 @@ public class LinkedListDequeSolution<Item> extends LinkedList<Item> {
     /** Try/catch is so that code doesn't crash when we try to get from bad indices.
       * Instead, we return null as per the spec. We'll learn about try/catch after
       * the midterm. */
+    @Override
     public Item get(int i) {
         try {
             return super.get(i);
@@ -30,7 +32,7 @@ public class LinkedListDequeSolution<Item> extends LinkedList<Item> {
             return null;
         }
     }
-
+    @Override
     public Item removeFirst() {
         try {
             return super.removeFirst();
@@ -38,7 +40,7 @@ public class LinkedListDequeSolution<Item> extends LinkedList<Item> {
             return null;
         }
     }
-
+    @Override
     public Item removeLast() {
         try {
             return super.removeLast();

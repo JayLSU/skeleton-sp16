@@ -1,4 +1,4 @@
-public class LinkedListDeque<Blorp>{
+public class LinkedListDeque<Blorp> implements Deque<Blorp>{
 	public class LinkedListNode{ 
 		public Blorp item;
 		public LinkedListNode pre;
@@ -31,7 +31,7 @@ public class LinkedListDeque<Blorp>{
 		starter.next = starter;
 		starter.pre = starter;
 	}
-
+	@Override
 	// addFirst method: Adds an item to the front of the Deque
 	public void addFirst(Blorp x){
 		LinkedListNode newnode;
@@ -46,7 +46,7 @@ public class LinkedListDeque<Blorp>{
 		sentinel.next = newnode;
 		size += 1;
 	}
-
+	@Override
 	// addLast method: put an item to the back of the Deque
 	public void addLast(Blorp x){
 		LinkedListNode newnode = new LinkedListNode(x,sentinel.next.pre,sentinel.next);	
@@ -54,7 +54,7 @@ public class LinkedListDeque<Blorp>{
 		sentinel.next.pre = newnode;	
 		size += 1;
 	}
-
+	@Override
 	// isEmpty method: Returns true if Deque is empty, false otherwise
 	public boolean isEmpty(){
 		if(size == 0){
@@ -62,12 +62,12 @@ public class LinkedListDeque<Blorp>{
 		}
 		return false;
 	}
-
+	@Override
 	// size method: Returns the number of itmes in the Deque
 	public int size(){
 		return this.size;
 	}
-
+	@Override
 	// printDeque method: Prints the items in the Deque from first to last, separated by a space.
 	public void printDeque(){
 		int SizeToPrint = size;
@@ -84,7 +84,7 @@ public class LinkedListDeque<Blorp>{
 		}
 		System.out.println();
 	}
-
+	@Override
 	// removeFirst method: Removes and retruns the item at the front of the Deque. If no such item exists, returns null.
 	public Blorp removeFirst(){
 		if (this.isEmpty()) {
@@ -99,7 +99,7 @@ public class LinkedListDeque<Blorp>{
 		last.next = newfront;
 		return removed_item;
 	}
-
+	@Override
 	// removeLast method: Removes and retruns the item at the back of the Deque. If no such item exists, returns null.
 	public Blorp removeLast(){
 		if (this.isEmpty()) {
@@ -113,7 +113,7 @@ public class LinkedListDeque<Blorp>{
 		newlast.next = front;
 		return removed_item;
 	}
-
+	@Override
 	// get mehod: Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth. If no
 	// such item exists, returns null. Must not alter the Deque!
 	public Blorp get(int index){
