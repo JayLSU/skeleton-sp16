@@ -8,10 +8,7 @@ import java.awt.Color;
 import java.util.Map;
 import java.util.List;
 
-/** An implementation of a motile pacifist photosynthesizer.
- *  @author Josh Hug
- */
-public class Plip extends Creature {
+public class Clorus extends Creature{
 
     /** red color. */
     private int r;
@@ -26,8 +23,8 @@ public class Plip extends Creature {
     /** move probability*/
     private double moveProb = 0.5;
     /** creates plip with energy equal to E. */
-    public Plip(double e) {
-        super("plip");
+    public Clorus(double e) {
+        super("clorus");
         r = 0;
         g = 0;
         b = 0;
@@ -35,7 +32,7 @@ public class Plip extends Creature {
     }
 
     /** creates a plip with energy equal to 1. */
-    public Plip() {
+    public Clorus() {
         this(1);
     }
 
@@ -47,49 +44,46 @@ public class Plip extends Creature {
      *  that you get this exactly correct.
      */
     public Color color() {
-        r = 99;
-        b = 76;
-        double colorChange = (255 - 63) / 2;
-        g = (int) (this.energy * colorChange) + 63;
+        r = 34;
+        g = 0;
+        b = 231;
         return color(r, g, b);
     }
 
     /** Do nothing with C, Plips are pacifists. */
     public void attack(Creature c) {
+        this.energy += c.energy();
     }
 
-    /** Plips should lose 0.15 units of energy when moving. If you want to
+    /** Plips should lose 0.03 units of energy when moving. If you want to
      *  to avoid the magic number warning, you'll need to make a
      *  private static final variable. This is not required for this lab.
      */
     public void move() {
-        this.energy -= 0.15;
+        this.energy -= 0.03;
     }
 
 
-    /** Plips gain 0.2 energy when staying due to photosynthesis. */
+    /** Clorus loss 0.01 energy when stay. */
     public void stay() {
-        this.energy += 0.2;
-        if (this.energy >= 2){
-            this.energy = 2;
-        }
+        this.energy -= 0.01;
     }
 
     /** Plips and their offspring each get 50% of the energy, with none
      *  lost to the process. Now that's efficiency! Returns a baby
      *  Plip.
      */
-    public Plip replicate() {
+    public Clorus replicate() {
         double childEnergy = this.energy * repEnergyPass;
         this.energy *= repEnergyRetain;
-        return new Plip(childEnergy);
+        return new Clorus(childEnergy);
     }
 
-    /** Plips take exactly the following actions based on NEIGHBORS:
-     *  1. If no empty adjacent spaces, STAY.
-     *  2. Otherwise, if energy >= 1, REPLICATE.
-     *  3. Otherwise, if any Cloruses, MOVE with 50% probability.
-     *  4. Otherwise, if nothing else, STAY
+    /** Clorus take exactly the following actions based on NEIGHBORS:
+     *  1. If no empty adjacent spaces, STAY. (Even if there are Plips nearby they could attack)
+     *  2. Otherwise, if any Plips are seen, the Clorus will ATTACK one of them randomly.
+     *  3. Otherwise, if the Clorus has energy greater than or equal to 1, it will REPLICATE to a random empty square.
+     *  4. Otherwise, the Clorus will MOVE to a random empty square.
      *
      *  Returns an object of type Action. See Action.java for the
      *  scoop on how Actions work. See SampleCreature.chooseAction()
@@ -100,19 +94,16 @@ public class Plip extends Creature {
         if (empties.size() == 0){
             return new Action(Action.ActionType.STAY);
         }
-        if (this.energy() >= 1.0){
-            Direction RepDir = HugLifeUtils.randomEntry(empties);
-            return new Action(Action.ActionType.REPLICATE, RepDir);
+        List<Direction> PlipsDir = getNeighborsOfType(neighbors,"plip");
+        if (PlipsDir.size() > 0){
+            Direction AttackDir = HugLifeUtils.randomEntry(PlipsDir);
+            return new Action(Action.ActionType.ATTACK,AttackDir);
         }
-        List<Direction> clorus = getNeighborsOfType(neighbors,"clorus");
-        if (clorus.size() > 0){
-            if (HugLifeUtils.random() < moveProb) {
-                Direction MoveDir = HugLifeUtils.randomEntry(empties);
-                return new Action(Action.ActionType.MOVE, MoveDir);
-            }
+        if (this.energy() >= 1){
+            Direction repDir = HugLifeUtils.randomEntry(empties);
+            return new Action(Action.ActionType.REPLICATE,repDir);
         }
-        return new Action(Action.ActionType.STAY);
-
+        Direction MoveDir = HugLifeUtils.randomEntry(empties);
+        return new Action(Action.ActionType.MOVE,MoveDir);
     }
-
 }

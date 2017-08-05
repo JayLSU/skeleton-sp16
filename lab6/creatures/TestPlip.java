@@ -66,14 +66,8 @@ public class TestPlip {
         surrounded2.put(Direction.RIGHT, new Impassible());
 
         Action actual2 = p.chooseAction(surrounded2);
-        Action expected2 = new Action(Action.ActionType.REPLICATE,actual2.dir);
+        Action expected2 = new Action(Action.ActionType.REPLICATE,Direction.TOP); //actual2.dir
         assertEquals(expected2, actual2);
-        /*Action actual2 = p.chooseAction(surrounded2);
-        Action expected2 = new Action(Action.ActionType.REPLICATE,Direction.TOP);
-        assertEquals(expected2, actual2);
-
-        Action expected3 = new Action(Action.ActionType.REPLICATE,Direction.LEFT);
-        assertEquals(expected3, actual2);*/
 
     }
 
