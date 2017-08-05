@@ -59,7 +59,21 @@ public class TestPlip {
 
         assertEquals(expected, actual);
 
+        HashMap<Direction, Occupant> surrounded2 = new HashMap<Direction, Occupant>();
+        surrounded2.put(Direction.TOP, new Empty());
+        surrounded2.put(Direction.BOTTOM, new Impassible());
+        surrounded2.put(Direction.LEFT, new Empty());
+        surrounded2.put(Direction.RIGHT, new Impassible());
 
+        Action actual2 = p.chooseAction(surrounded2);
+        Action expected2 = new Action(Action.ActionType.REPLICATE,actual2.dir);
+        assertEquals(expected2, actual2);
+        /*Action actual2 = p.chooseAction(surrounded2);
+        Action expected2 = new Action(Action.ActionType.REPLICATE,Direction.TOP);
+        assertEquals(expected2, actual2);
+
+        Action expected3 = new Action(Action.ActionType.REPLICATE,Direction.LEFT);
+        assertEquals(expected3, actual2);*/
 
     }
 
