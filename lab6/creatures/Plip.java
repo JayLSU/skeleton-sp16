@@ -42,7 +42,10 @@ public class Plip extends Creature {
      *  that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        r = 99;
+        b = 76;
+        double colorChange = (255 - 63) / 2;
+        g = (int) (this.energy * colorChange);
         return color(r, g, b);
     }
 
@@ -55,11 +58,16 @@ public class Plip extends Creature {
      *  private static final variable. This is not required for this lab.
      */
     public void move() {
+        this.energy -= 0.15;
     }
 
 
     /** Plips gain 0.2 energy when staying due to photosynthesis. */
     public void stay() {
+        this.energy += 0.2;
+        if (this.energy >= 2){
+            this.energy = 2;
+        }
     }
 
     /** Plips and their offspring each get 50% of the energy, with none
