@@ -45,7 +45,7 @@ public class Plip extends Creature {
         r = 99;
         b = 76;
         double colorChange = (255 - 63) / 2;
-        g = (int) (this.energy * colorChange);
+        g = (int) (this.energy * colorChange) + 63;
         return color(r, g, b);
     }
 
