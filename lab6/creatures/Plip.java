@@ -23,6 +23,8 @@ public class Plip extends Creature {
     private double repEnergyRetain = 0.5;
     /** energy pass to child*/
     private double repEnergyPass = 0.5;
+    /** move probability*/
+    private double moveProb = 0.5;
     /** creates plip with energy equal to E. */
     public Plip(double e) {
         super("plip");
@@ -96,7 +98,23 @@ public class Plip extends Creature {
      *  for an example to follow.
      */
     public Action chooseAction(Map<Direction, Occupant> neighbors) {
+        List<Direction> empties = getNeighborsOfType(neighbors, "empty");
+        if (empties.size() == 0){
+            return new Action(Action.ActionType.STAY);
+        }
+        if (this.energy() >= 1.0){
+            Direction RepDir = HugLifeUtils.randomEntry(empties);
+            return new Action(Action.ActionType.REPLICATE, RepDir);
+        }
+        List<Direction> clorus = getNeighborsOfType(neighbors,"clorus");
+        if (clorus.size() > 0){
+            if (HugLifeUtils.random() < moveProb) {
+                Direction MoveDir = HugLifeUtils.randomEntry(empties);
+                return new Action(Action.ActionType.MOVE, MoveDir);
+            }
+        }
         return new Action(Action.ActionType.STAY);
+
     }
 
 }
