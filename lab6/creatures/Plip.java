@@ -19,7 +19,10 @@ public class Plip extends Creature {
     private int g;
     /** blue color. */
     private int b;
-
+    /** energy loss rate*/
+    private double repEnergyRetain = 0.5;
+    /** energy pass to child*/
+    private double repEnergyPass = 0.5;
     /** creates plip with energy equal to E. */
     public Plip(double e) {
         super("plip");
@@ -75,7 +78,11 @@ public class Plip extends Creature {
      *  Plip.
      */
     public Plip replicate() {
-        return this;
+        double childEnergy = this.energy * repEnergyPass;
+        this.energy *= repEnergyRetain;
+        Plip child = new Plip(childEnergy);
+
+        return child;
     }
 
     /** Plips take exactly the following actions based on NEIGHBORS:
