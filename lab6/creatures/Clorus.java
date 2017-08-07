@@ -22,7 +22,7 @@ public class Clorus extends Creature{
     private double repEnergyPass = 0.5;
     /** move probability*/
     private double moveProb = 0.5;
-    /** creates plip with energy equal to E. */
+    /** creates clorus with energy equal to E. */
     public Clorus(double e) {
         super("clorus");
         r = 0;
@@ -31,7 +31,7 @@ public class Clorus extends Creature{
         energy = e;
     }
 
-    /** creates a plip with energy equal to 1. */
+    /** creates a clorus with energy equal to 1. */
     public Clorus() {
         this(1);
     }
@@ -50,12 +50,12 @@ public class Clorus extends Creature{
         return color(r, g, b);
     }
 
-    /** Do nothing with C, Plips are pacifists. */
+    /** Absorb C.energy(). */
     public void attack(Creature c) {
         this.energy += c.energy();
     }
 
-    /** Plips should lose 0.03 units of energy when moving. If you want to
+    /** Clorus should lose 0.03 units of energy when moving. If you want to
      *  to avoid the magic number warning, you'll need to make a
      *  private static final variable. This is not required for this lab.
      */
@@ -69,9 +69,9 @@ public class Clorus extends Creature{
         this.energy -= 0.01;
     }
 
-    /** Plips and their offspring each get 50% of the energy, with none
+    /** Clorus and their offspring each get 50% of the energy, with none
      *  lost to the process. Now that's efficiency! Returns a baby
-     *  Plip.
+     *  Clorus.
      */
     public Clorus replicate() {
         double childEnergy = this.energy * repEnergyPass;
