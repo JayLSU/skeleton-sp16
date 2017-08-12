@@ -133,7 +133,7 @@ public class Editor extends Application {
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
 
-        primaryStage.setTitle("Single Letter Display Simple");
+        primaryStage.setTitle("SJ's Editor");
 
         // This is boilerplate, necessary to setup the window where things are displayed.
         primaryStage.setScene(scene);
