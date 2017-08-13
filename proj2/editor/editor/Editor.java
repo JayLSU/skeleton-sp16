@@ -17,6 +17,7 @@ import java.util.LinkedList;
 public class Editor extends Application {
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
+    private final int MARGIN = 5;
 
     /** An EventHandler to handle keys that get pressed. */
     private class KeyEventHandler implements EventHandler<KeyEvent> {
@@ -105,7 +106,7 @@ public class Editor extends Application {
 
             // Calculate the position so that the text will be centered on the screen.
             double textTop = 0;//textCenterY - textHeight / 2;
-            double textLeft = 0;//textCenterX - textWidth / 2;
+            double textLeft = MARGIN;//textCenterX - textWidth / 2;
 
             // Re-position the text.
             displayText.setX(textLeft);
