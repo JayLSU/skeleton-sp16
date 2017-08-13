@@ -17,7 +17,7 @@ import java.util.LinkedList;
 public class Editor extends Application {
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
-    private final int MARGIN = 5;
+    private static final int MARGIN = 5;
 
     /** An EventHandler to handle keys that get pressed. */
     private class KeyEventHandler implements EventHandler<KeyEvent> {
@@ -37,7 +37,6 @@ public class Editor extends Application {
         KeyEventHandler(final Group root, int windowWidth, int windowHeight) {
             textCenterX = 0;
             textCenterY = 0;
-
             // Initialize some empty text and add it to root so that it will be displayed.
             displayText = new Text(textCenterX, textCenterY, "");
             // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
@@ -52,7 +51,7 @@ public class Editor extends Application {
             root.getChildren().add(displayText);
         }
 
-        private void Display(LinkedList al){
+        private void Display(LinkedList<String> al){
             String Text = String.join("",al);
             displayText.setText(Text);
         }
@@ -142,6 +141,7 @@ public class Editor extends Application {
     }
 
     public static void main(String[] args) {
+        Print.print(args);
         launch(args);
     }
 }
