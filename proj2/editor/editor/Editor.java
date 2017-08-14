@@ -14,11 +14,25 @@ import javafx.stage.Stage;
 import java.util.LinkedList;
 import sg.util.Print;
 import sg.util.KeyEventHandler;
-
+import java.util.LinkedList;
 public class Editor extends Application {
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
     private static final int MARGIN = 5;
+    private static final int STARTING_FONT_SIZE = 20;
+    private static final int STARTING_TEXT_POSITION_X = 0;
+    private static final int STARTING_TEXT_POSITION_Y = 0;
+    private Text displayText = new Text(MARGIN, STARTING_TEXT_POSITION_Y, "");
+    private int fontSize = STARTING_FONT_SIZE;
+    private String fontName = "Verdana";
+    private static LinkedList<String > initialDisplay = new LinkedList<>();
+
+    private void initialDisplay(){
+        String Text = String.join("",initialDisplay);
+        displayText.setText(Text);
+        displayText.setTextOrigin(VPos.TOP);
+        displayText.setFont(Font.font(fontName, fontSize));
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -27,7 +41,8 @@ public class Editor extends Application {
         // The Scene represents the window: its height and width will be the height and width
         // of the window displayed.
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.WHITE);
-
+        initialDisplay();
+        root.getChildren().add(displayText);
         // To get information about what keys the user is pressing, create an EventHandler.
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
@@ -45,7 +60,7 @@ public class Editor extends Application {
     }
 
     public static void main(String[] args) {
-        Print.print(args);
+        initialDisplay = Print.print(args);
         launch(args);
     }
 }

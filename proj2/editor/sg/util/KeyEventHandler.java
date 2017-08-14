@@ -41,7 +41,6 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         // simpler!
         displayText.setTextOrigin(VPos.TOP);
         displayText.setFont(Font.font(fontName, fontSize));
-
         // All new Nodes need to be added to the root in order to be displayed.
         root.getChildren().add(displayText);
     }
