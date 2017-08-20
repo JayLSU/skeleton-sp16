@@ -8,6 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import javax.lang.model.element.NestingKind;
 import java.util.LinkedList;
 
 /** An EventHandler to handle keys that get pressed. */
@@ -26,10 +27,10 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     /** The Text to display on the screen. */
     private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");
     private int fontSize = STARTING_FONT_SIZE;
-
+    private String filename;
     private String fontName = "Verdana";
 
-    public KeyEventHandler(final Group root, int windowWidth, int windowHeight, Text InitialDis) {
+    public KeyEventHandler(final Group root, String name, Text InitialDis) {
         // textCenterX = 0;
         // textCenterY = 0;
         // Initialize some empty text and add it to root so that it will be displayed.
@@ -39,6 +40,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         // highest position across all letters (for example, the top of a letter like "I", as
         // opposed to the top of a letter like "e"), which makes calculating positions much
         // simpler!
+        filename = name;
         displayText.setTextOrigin(VPos.TOP);
         displayText.setFont(Font.font(fontName, fontSize));
         InitialContentToList(InitialDis);
@@ -68,6 +70,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 System.out.println("User pressed the shortcut key (command or control, depending on the OS)" + " in addition to \"a\"");
             } else if (keyEvent.getCode() == KeyCode.Z) {
                 System.out.println("User pressed the shortcut key (command or control, depending on the OS)" + " in addition to \"z\"");
+            } else if (keyEvent.getCode() == KeyCode.S){
+                SaveFile.save(filename, allToDisplay);
             }
         }else if (keyEvent.getEventType() == KeyEvent.KEY_TYPED) {
             // Use the KEY_TYPED event rather than KEY_PRESSED for letter keys, because with

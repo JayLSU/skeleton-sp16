@@ -41,9 +41,6 @@ public class ReadFile {
                 //   writer.write(charRead);
             }
 
-            System.out.println("Successfully copied file " + fileName + " to "
-                    + fileName);
-
             // Close the reader and writer.
             bufferedReader.close();
             //writer.close();

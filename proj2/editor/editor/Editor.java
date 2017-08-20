@@ -26,6 +26,7 @@ public class Editor extends Application {
     private int fontSize = STARTING_FONT_SIZE;
     private String fontName = "Verdana";
     private static LinkedList<String > initialDisplay = new LinkedList<>();
+    private static String filename;
 
     private void initialDisplay(){
         String Text = String.join("",initialDisplay);
@@ -47,7 +48,7 @@ public class Editor extends Application {
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
         EventHandler<KeyEvent> keyEventHandler =
-                new KeyEventHandler(root, WINDOW_WIDTH, WINDOW_HEIGHT, displayText);
+                new KeyEventHandler(root, filename, displayText);
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
@@ -61,6 +62,7 @@ public class Editor extends Application {
 
     public static void main(String[] args) {
         initialDisplay = Print.print(args);
+        filename = args[0];
         launch(args);
     }
 }
