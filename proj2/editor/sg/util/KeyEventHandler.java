@@ -16,24 +16,24 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private static final String MESSAGE_PREFIX =
             "User pressed the shortcut key (command or control, depending on the OS)";
 
-    private int textCenterX;
-    private int textCenterY;
+    //private int textCenterX;
+    //private int textCenterY;
 
     private static final int STARTING_FONT_SIZE = 20;
     private static final int STARTING_TEXT_POSITION_X = 0;
     private static final int STARTING_TEXT_POSITION_Y = 0;
     private LinkedList<String > allToDisplay = new LinkedList<>();
     /** The Text to display on the screen. */
-    private Text displayText = new Text(STARTING_TEXT_POSITION_X, STARTING_TEXT_POSITION_Y, "");
+    private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");
     private int fontSize = STARTING_FONT_SIZE;
 
     private String fontName = "Verdana";
 
-    public KeyEventHandler(final Group root, int windowWidth, int windowHeight) {
-        textCenterX = 0;
-        textCenterY = 0;
+    public KeyEventHandler(final Group root, int windowWidth, int windowHeight, Text InitialDis) {
+        // textCenterX = 0;
+        // textCenterY = 0;
         // Initialize some empty text and add it to root so that it will be displayed.
-        displayText = new Text(textCenterX, textCenterY, "");
+        // displayText = new Text(textCenterX, textCenterY, "");
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
         // that when the text is assigned a y-position, that position corresponds to the
         // highest position across all letters (for example, the top of a letter like "I", as
@@ -41,6 +41,9 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         // simpler!
         displayText.setTextOrigin(VPos.TOP);
         displayText.setFont(Font.font(fontName, fontSize));
+        InitialContentToList(InitialDis);
+        //root.getChildren().clear();
+        Display(allToDisplay);
         // All new Nodes need to be added to the root in order to be displayed.
         root.getChildren().add(displayText);
     }
@@ -50,8 +53,16 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         displayText.setText(Text);
     }
 
+    private void InitialContentToList(Text InitialDis){
+        String InitialContent = InitialDis.getText();
+        for(char c : InitialContent.toCharArray()){
+            allToDisplay.add(Character.toString(c));
+        }
+    }
+
     @Override
     public void handle(KeyEvent keyEvent) {
+
         if (keyEvent.isShortcutDown()) {
             if (keyEvent.getCode() == KeyCode.A) {
                 System.out.println("User pressed the shortcut key (command or control, depending on the OS)" + " in addition to \"a\"");

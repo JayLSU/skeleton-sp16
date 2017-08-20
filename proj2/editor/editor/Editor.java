@@ -42,12 +42,12 @@ public class Editor extends Application {
         // of the window displayed.
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.WHITE);
         initialDisplay();
-        root.getChildren().add(displayText);
+        //root.getChildren().add(displayText);
         // To get information about what keys the user is pressing, create an EventHandler.
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
         EventHandler<KeyEvent> keyEventHandler =
-                new KeyEventHandler(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+                new KeyEventHandler(root, WINDOW_WIDTH, WINDOW_HEIGHT, displayText);
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
