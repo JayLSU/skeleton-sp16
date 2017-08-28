@@ -122,10 +122,10 @@ public class LineStarterArray<Blorp> {
 
     int getLen(){return LineStarters.length;}
 
-/*    void setStarterContent(FastLinkedList.Node toSetStarter, FastLinkedList.Node node){
-        toSetStarter = node;
+    void setStarterContent(int i, Blorp node){
+        LineStarters[i] = node;
     }
-
+/*
     void  SetCursorLineStarter(){
         int ClickingLineNo = (int) Math.floor(ClickingPosY/FontHeight);
         CursorLineStarter = LineStarters[ClickingLineNo];
