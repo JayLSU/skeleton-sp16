@@ -1,12 +1,12 @@
 package sg.util;
 
 
-public class LineStarterArray {
+public class LineStarterArray<Blorp> {
 
 /*    double ClickingPosX;
     double ClickingPosY;
     double FontHeight;*/
-    private FastLinkedList.Node[] LineStarters;
+    Blorp[] LineStarters;
     private int TotalLine;
     private int back;
     private int resizeFactor;
@@ -15,12 +15,14 @@ public class LineStarterArray {
     LineStarterArray(){
 /*        ClickingPosX = 0.0;
         ClickingPosY = 0.0;*/
-        LineStarters = (FastLinkedList.Node []) new Object[20];
+        LineStarters = (Blorp []) new Object[20];
         TotalLine = 0;
         back = 0;
         resizeFactor = 2;
         usageFactor = 0.25;
     }
+
+
 
 /*    void setFontHeight(double fontheight){
         FontHeight = fontheight;
@@ -60,7 +62,7 @@ public class LineStarterArray {
 
     private void doublesize(){
         int newsize = resizeFactor * TotalLine;
-        FastLinkedList.Node[] temp = (FastLinkedList.Node []) new Object[newsize];
+        Blorp[] temp = (Blorp []) new Object[newsize];
         System.arraycopy(LineStarters,0,temp,0,TotalLine);
         LineStarters = temp;
         back = TotalLine;
@@ -69,7 +71,7 @@ public class LineStarterArray {
 
     private void halfsize(){
         int newsize = LineStarters.length / resizeFactor;
-        FastLinkedList.Node[] temp = (FastLinkedList.Node[]) new Object[newsize];
+        Blorp[] temp = (Blorp[]) new Object[newsize];
         for(int i=0;i <= this.TotalLine();i++){
             temp[i] = this.LineStarters[i];
         }
@@ -86,16 +88,16 @@ public class LineStarterArray {
         }
     }
 
-    void addBack(FastLinkedList.Node newNode){
+    void addBack(Blorp newNode){
         if (this.isFull()){
             this.resize();
         }
         this.LineStarters[back] = newNode;
         this.back = this.addOne(this.back);
-        TotalLine += TotalLine;
+        TotalLine += 1;
     }
 
-    FastLinkedList.Node removeBack(){
+    Blorp removeBack(){
         double currentUsage = (double) this.TotalLine()/LineStarters.length;
         if (this.isEmpty()){
             return null;
@@ -105,7 +107,7 @@ public class LineStarterArray {
         }
         TotalLine -= 1;
         this.back = this.minusOne(this.back);
-        FastLinkedList.Node removedNode = LineStarters[this.back];
+        Blorp removedNode = LineStarters[this.back];
         LineStarters[this.back] = null;
         return removedNode;
     }
@@ -113,6 +115,12 @@ public class LineStarterArray {
     int TotalLine(){
         return this.TotalLine;
     }
+
+    Blorp get(int i){
+        return LineStarters[i];
+    }
+
+    int getLen(){return LineStarters.length;}
 
 /*    void setStarterContent(FastLinkedList.Node toSetStarter, FastLinkedList.Node node){
         toSetStarter = node;
