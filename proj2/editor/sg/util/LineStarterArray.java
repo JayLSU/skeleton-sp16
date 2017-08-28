@@ -1,7 +1,7 @@
 package sg.util;
 
 
-public class LineStarterArray<Blorp> {
+class LineStarterArray<Blorp> {
 
 /*    double ClickingPosX;
     double ClickingPosY;
