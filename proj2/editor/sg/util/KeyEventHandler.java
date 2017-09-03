@@ -29,6 +29,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private int fontSize = STARTING_FONT_SIZE;
     private String filename;
     private String fontName = "Verdana";
+    private Text tempText = new Text(250,250,"Test");
 
     public KeyEventHandler(final Group root, String name, Text InitialDis) {
         // textCenterX = 0;
@@ -48,6 +49,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         Display(allToDisplay);
         // All new Nodes need to be added to the root in order to be displayed.
         root.getChildren().add(displayText);
+        root.getChildren().add(tempText);
     }
 
     private void Display(FastLinkedList al){

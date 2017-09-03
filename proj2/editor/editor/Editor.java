@@ -20,7 +20,7 @@ public class Editor extends Application {
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
     private static final int MARGIN = 5;
-    private static final int STARTING_FONT_SIZE = 20;
+    private static final int STARTING_FONT_SIZE = 12;
     private static final int STARTING_TEXT_POSITION_X = 0;
     private static final int STARTING_TEXT_POSITION_Y = 0;
     private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");

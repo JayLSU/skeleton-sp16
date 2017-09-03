@@ -33,6 +33,7 @@ public class FastLinkedList {
 /*            newNode.pre = newNode;
             newNode.next = newNode;*/
             sentinal.next = newNode;
+            newNode.pre = newNode;
         }else{
             newNode.pre = currentNode;
             newNode.next = currentNode.next;
