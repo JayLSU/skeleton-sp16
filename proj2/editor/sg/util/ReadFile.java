@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 public class ReadFile {
-    public static LinkedList<String> read(String fileName){
-        LinkedList<String> content = new LinkedList<>();
+    public static FastLinkedList read(String fileName){
+        FastLinkedList content = new FastLinkedList();
 
         try {
             File inputFile = new File(fileName);

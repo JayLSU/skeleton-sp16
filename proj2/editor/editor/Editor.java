@@ -11,6 +11,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.LinkedList;
+
+import sg.util.FastLinkedList;
 import sg.util.Print;
 import sg.util.KeyEventHandler;
 
@@ -24,7 +26,7 @@ public class Editor extends Application {
     private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");
     private int fontSize = STARTING_FONT_SIZE;
     private String fontName = "Verdana";
-    private static LinkedList<String > initialDisplay = new LinkedList<>();
+    private static FastLinkedList initialDisplay = new FastLinkedList();
     private static String filename;
 
     private void initialDisplay(){
@@ -32,6 +34,15 @@ public class Editor extends Application {
         displayText.setText(Text);
         displayText.setTextOrigin(VPos.TOP);
         displayText.setFont(Font.font(fontName, fontSize));
+    }
+
+    private String TextToString(FastLinkedList l){
+        String returnString = null;
+        if (l.isEmpty()){
+            return null;
+        }
+
+        return returnString;
     }
 
     @Override

@@ -2,8 +2,8 @@ package sg.util;
 
 import java.util.LinkedList;
 public class Print {
-    public static LinkedList<String> print(String[] args){
-        LinkedList<String> content;
+    public static FastLinkedList print(String[] args){
+        FastLinkedList content;
         if (args.length < 1) {
             System.out.println("No filename is provided!");
             System.exit(1);

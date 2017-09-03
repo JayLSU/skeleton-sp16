@@ -10,7 +10,7 @@ public class FastLinkedList {
     private static final int INITIAL_TEXT_POSITION_X = 0;
     private static final int INITIAL_TEXT_POSITION_Y = 0;
 
-    FastLinkedList(){
+    public FastLinkedList(){
         this.sentinal = new Node(null, null, null);
         this.sentinal.pre = sentinal;
         this.sentinal.next = sentinal;
@@ -18,7 +18,7 @@ public class FastLinkedList {
         this.size = 0;
     }
 
-    boolean isEmpty(){
+    public boolean isEmpty(){
         return this.size == 0;
     }
 
@@ -26,13 +26,15 @@ public class FastLinkedList {
         Node newNode = new Node(null, null, null);
         newNode.nodeText = new Text (INITIAL_TEXT_POSITION_X, INITIAL_TEXT_POSITION_Y, CharTyped);
         if (isEmpty()){
-            newNode.pre = newNode;
-            newNode.next = newNode;
+/*            newNode.pre = newNode;
+            newNode.next = newNode;*/
             sentinal.next = newNode;
         }else{
             newNode.pre = currentNode;
             newNode.next = currentNode.next;
-            currentNode.next.pre = newNode;
+            if (currentNode.next != null){
+                currentNode.next.pre = newNode;
+            }
             currentNode.next = newNode;
         }
         size += 1;
