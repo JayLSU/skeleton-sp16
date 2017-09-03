@@ -18,6 +18,10 @@ public class FastLinkedList {
         this.size = 0;
     }
 
+    public Node getStartNode(){
+        return sentinal.next;
+    }
+
     public boolean isEmpty(){
         return this.size == 0;
     }
@@ -43,7 +47,9 @@ public class FastLinkedList {
 
     void delete(){
         if (!isEmpty()){
-            currentNode.next.pre = currentNode.pre;
+            if (currentNode.next!=null){
+                currentNode.next.pre = currentNode.pre;
+            }
             currentNode.pre.next = currentNode.next;
             currentNode = currentNode.pre;
             size -= 1;
@@ -53,9 +59,9 @@ public class FastLinkedList {
 
 
 
-    class Node{
-            Node pre, next;
-            Text nodeText;
+    public class Node{
+            public Node pre, next;
+            public Text nodeText;
             Node(Node p, Node n, Text t){
                 pre = p;
                 next = n;

@@ -23,7 +23,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private static final int STARTING_FONT_SIZE = 20;
     private static final int STARTING_TEXT_POSITION_X = 0;
     private static final int STARTING_TEXT_POSITION_Y = 0;
-    private LinkedList<String > allToDisplay = new LinkedList<>();
+    private FastLinkedList allToDisplay = new FastLinkedList();
     /** The Text to display on the screen. */
     private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");
     private int fontSize = STARTING_FONT_SIZE;
@@ -50,9 +50,23 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         root.getChildren().add(displayText);
     }
 
-    private void Display(LinkedList<String> al){
-        String Text = String.join("",al);
+    private void Display(FastLinkedList al){
+        String Text = TextToString(al);
         displayText.setText(Text);
+    }
+
+    private String TextToString(FastLinkedList l){
+        String returnString = "";
+        if (l.isEmpty()){
+            return null;
+        }
+        FastLinkedList.Node startNode;
+        startNode = l.getStartNode();
+        while (startNode != null){
+            returnString += startNode.nodeText.getText();
+            startNode = startNode.next;
+        }
+        return returnString;
     }
 
     private void InitialContentToList(Text InitialDis){
@@ -91,7 +105,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             }else if (characterTyped.length() > 0 && characterTyped.charAt(0) == 8) {
                 // Ignore control keys, which have non-zero length, as well as the backspace
                 // key, which is represented as a character of value = 8 on Windows.
-                allToDisplay.removeLast();
+                allToDisplay.delete();
                 Display(allToDisplay);
             }
 

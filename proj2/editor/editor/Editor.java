@@ -30,18 +30,23 @@ public class Editor extends Application {
     private static String filename;
 
     private void initialDisplay(){
-        String Text = String.join("",initialDisplay);
+        String Text = TextToString(initialDisplay);
         displayText.setText(Text);
         displayText.setTextOrigin(VPos.TOP);
         displayText.setFont(Font.font(fontName, fontSize));
     }
 
     private String TextToString(FastLinkedList l){
-        String returnString = null;
+        String returnString = "";
         if (l.isEmpty()){
             return null;
         }
-
+        FastLinkedList.Node startNode;
+        startNode = l.getStartNode();
+        while (startNode != null){
+            returnString += startNode.nodeText.getText();
+            startNode = startNode.next;
+        }
         return returnString;
     }
 
