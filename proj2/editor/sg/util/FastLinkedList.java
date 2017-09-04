@@ -68,7 +68,7 @@ public class FastLinkedList {
     }
 
     void XYPosUpdate(){
-        double TextWidth = 0;
+        double TextWidth;
         double TextHeight = 0;
         CurrentPosX = MARGIN;
         CurrentPosY = 0;
@@ -80,8 +80,8 @@ public class FastLinkedList {
                     starter.nodeText.setTextOrigin(VPos.TOP);
                     starter.nodeText.setX(getCurrentPosX());
                     starter.nodeText.setY(getCurrentPosY());
-                    TextHeight = starter.nodeText.getLayoutBounds().getHeight();
-                    TextWidth = starter.nodeText.getLayoutBounds().getWidth();
+                    TextHeight = Math.round(starter.nodeText.getLayoutBounds().getHeight());
+                    TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
                     //CurrentPosY = TextHeight;
                     CurrentPosX += TextWidth;
                     starter = starter.next;
@@ -94,14 +94,14 @@ public class FastLinkedList {
                         starter.nodeText.setTextOrigin(VPos.TOP);
                         starter.nodeText.setX(getCurrentPosX());
                         starter.nodeText.setY(getCurrentPosY());
-                        TextWidth = starter.nodeText.getLayoutBounds().getWidth();
+                        TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
                         CurrentPosX += TextWidth;
                         starter = starter.next;
                     }else{
                         starter.nodeText.setTextOrigin(VPos.TOP);
                         starter.nodeText.setX(getCurrentPosX());
                         starter.nodeText.setY(getCurrentPosY());
-                        TextWidth = starter.nodeText.getLayoutBounds().getWidth();
+                        TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
                         CurrentPosX += TextWidth;
                         starter = starter.next;
                     }
