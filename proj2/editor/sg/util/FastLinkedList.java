@@ -123,7 +123,18 @@ public class FastLinkedList {
         }
     }
 
+    void fontUpdate(int font){
+        if (!this.isEmpty()){
+            Node tempNode = sentinal.next;
+            while(tempNode!=null){
+                fontSize = font;
+                tempNode.nodeText.setFont(Font.font(fontName,fontSize));
+                tempNode = tempNode.next;
+            }
+        }
 
+
+    }
 
 
     public class Node{

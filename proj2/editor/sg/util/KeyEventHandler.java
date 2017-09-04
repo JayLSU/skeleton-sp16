@@ -4,7 +4,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 
 
 /** An EventHandler to handle keys that get pressed. */
@@ -14,14 +13,13 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             "User pressed the shortcut key (command or control, depending on the OS)";
 
 
-    private static final int STARTING_FONT_SIZE = 12;
+    private static final int STARTING_FONT_SIZE = 20;
 
     private FastLinkedList allToDisplay = new FastLinkedList();
     /** The Text to display on the screen. */
     //private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");
     private int fontSize = STARTING_FONT_SIZE;
     private String filename;
-    private Text tempText = new Text(250,250,"Test");
     private Group temproot;
 
     public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis) {
@@ -96,9 +94,13 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             // KeyCode).
             KeyCode code = keyEvent.getCode();
             if (code == KeyCode.UP) {
-                fontSize += 5;
+                fontSize += 4;
+                allToDisplay.fontUpdate(fontSize);
+                allToDisplay.XYPosUpdate();
             } else if (code == KeyCode.DOWN) {
-                fontSize = Math.max(0, fontSize - 5);
+                fontSize = Math.max(0, fontSize - 4);
+                allToDisplay.fontUpdate(fontSize);
+                allToDisplay.XYPosUpdate();
             }
         }
     }
