@@ -50,6 +50,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         // All new Nodes need to be added to the root in order to be displayed.
         root.getChildren().add(displayText);
         root.getChildren().add(tempText);
+        tempText.setText("");
     }
 
     private void Display(FastLinkedList al){

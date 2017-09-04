@@ -9,7 +9,8 @@ import java.util.LinkedList;
 public class ReadFile {
     public static FastLinkedList read(String fileName){
         FastLinkedList content = new FastLinkedList();
-
+        int CharHeight;
+        int CharWidth;
         try {
             File inputFile = new File(fileName);
             // Check to make sure that the input file exists!
@@ -44,6 +45,10 @@ public class ReadFile {
             // Close the reader and writer.
             bufferedReader.close();
             //writer.close();
+            //Update content Text positions
+            content.XYPosUpdate();
+            System.out.println("Positions update done!");
+
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("File not found! Exception was: " + fileNotFoundException);
         } catch (IOException ioException) {

@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.util.LinkedList;
 
 import sg.util.FastLinkedList;
 import sg.util.Print;
