@@ -6,13 +6,12 @@ import javafx.scene.text.Text;
 
 public class FastLinkedList {
     private Node sentinal;
-    //private int currentPos;
     private Node currentNode;
     private int size;
     private static final int INITIAL_TEXT_POSITION_X = 0;
     private static final int INITIAL_TEXT_POSITION_Y = 0;
     private static final int MARGIN = 5;
-    private static final int STARTING_FONT_SIZE = 12;
+    private static final int STARTING_FONT_SIZE = 20;
     private int fontSize = STARTING_FONT_SIZE;
     private String fontName = "Verdana";
     private double CurrentPosX;
@@ -41,6 +40,10 @@ public class FastLinkedList {
         return sentinal.next;
     }
 
+    public Node getCurrentNode(){
+        return currentNode;
+    }
+
     public boolean isEmpty(){
         return this.size == 0;
     }
@@ -50,8 +53,6 @@ public class FastLinkedList {
         newNode.nodeText = new Text (INITIAL_TEXT_POSITION_X + MARGIN, INITIAL_TEXT_POSITION_Y, CharTyped);
         newNode.nodeText.setFont(Font.font(fontName, fontSize));
         if (isEmpty()){
-/*            newNode.pre = newNode;
-            newNode.next = newNode;*/
             sentinal.next = newNode;
             newNode.pre = newNode;
         }else{
@@ -69,6 +70,8 @@ public class FastLinkedList {
     void XYPosUpdate(){
         double TextWidth = 0;
         double TextHeight = 0;
+        CurrentPosX = MARGIN;
+        CurrentPosY = 0;
         if (!this.isEmpty()){
             Node starter = this.getStartNode();
             while(starter!=null){
@@ -79,7 +82,7 @@ public class FastLinkedList {
                     starter.nodeText.setY(getCurrentPosY());
                     TextHeight = starter.nodeText.getLayoutBounds().getHeight();
                     TextWidth = starter.nodeText.getLayoutBounds().getWidth();
-                    CurrentPosY = TextHeight;
+                    //CurrentPosY = TextHeight;
                     CurrentPosX += TextWidth;
                     starter = starter.next;
                 }else{     // If starter is not the first node

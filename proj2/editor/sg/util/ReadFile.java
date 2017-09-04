@@ -9,8 +9,6 @@ import java.util.LinkedList;
 public class ReadFile {
     public static FastLinkedList read(String fileName){
         FastLinkedList content = new FastLinkedList();
-        int CharHeight;
-        int CharWidth;
         try {
             File inputFile = new File(fileName);
             // Check to make sure that the input file exists!
@@ -39,12 +37,10 @@ public class ReadFile {
                 // The integer read can be cast to a char, because we're assuming ASCII.
                 char charRead = (char) intRead;
                 content.add(Character.toString(charRead));
-                //   writer.write(charRead);
             }
 
-            // Close the reader and writer.
+            // Close the reader.
             bufferedReader.close();
-            //writer.close();
             //Update content Text positions
             content.XYPosUpdate();
             System.out.println("Positions update done!");

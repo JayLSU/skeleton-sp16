@@ -1,6 +1,5 @@
 package sg.util;
 
-import java.util.LinkedList;
 public class Print {
     public static FastLinkedList print(String[] args){
         FastLinkedList content;
