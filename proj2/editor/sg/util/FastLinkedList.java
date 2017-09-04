@@ -88,7 +88,7 @@ public class FastLinkedList {
                 }else{     // If starter is not the first node
                     starter.nodeText.setTextOrigin(VPos.TOP);
                     // If the starter starts a new line
-                    if (starter.pre.nodeText.getText().equals("\n") || starter.pre.nodeText.getText().equals("\r") ){
+                    if (starter.pre.nodeText.getText().equals("\n")){
                         CurrentPosY += TextHeight;
                         CurrentPosX = MARGIN;
                         starter.nodeText.setTextOrigin(VPos.TOP);

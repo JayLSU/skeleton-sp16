@@ -73,6 +73,10 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             if (characterTyped.length() > 0 && characterTyped.charAt(0) != 8) {
                 // Ignore control keys, which have non-zero length, as well as the backspace
                 // key, which is represented as a character of value = 8 on Windows.
+                if (characterTyped.equals("\r")){
+                    characterTyped = "\n";
+                }
+
                 allToDisplay.add(characterTyped);
                 allToDisplay.XYPosUpdate();
                 temproot.getChildren().add(allToDisplay.getCurrentNode().nodeText);
