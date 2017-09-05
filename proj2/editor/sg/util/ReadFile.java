@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
-public class ReadFile {
-    public static FastLinkedList read(String fileName){
+class ReadFile {
+    static FastLinkedList read(String fileName){
         FastLinkedList content = new FastLinkedList();
         try {
             File inputFile = new File(fileName);

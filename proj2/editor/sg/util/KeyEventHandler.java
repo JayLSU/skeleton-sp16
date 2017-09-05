@@ -1,9 +1,13 @@
 package sg.util;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 
 /** An EventHandler to handle keys that get pressed. */
@@ -21,8 +25,9 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private int fontSize = STARTING_FONT_SIZE;
     private String filename;
     private Group temproot;
+    private Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
 
-    public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis) {
+    public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R) {
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
         // that when the text is assigned a y-position, that position corresponds to the
         // highest position across all letters (for example, the top of a letter like "I", as
@@ -30,10 +35,12 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         // simpler!
         filename = name;
         temproot = root;
-
+        cursor = R;
+        cursor.setX(MARGIN);
         allToDisplay = InitialDis;
         AddContentToRoot(temproot, allToDisplay);
-
+        temproot.getChildren().add(cursor);
+        makeCursorColorChange();
     }
 
 
@@ -74,9 +81,10 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 if (characterTyped.equals("\r")){
                     characterTyped = "\n";
                 }
-
                 allToDisplay.add(characterTyped);
                 allToDisplay.XYPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
                 temproot.getChildren().add(allToDisplay.getCurrentNode().nodeText);
                 keyEvent.consume();
             }else if (characterTyped.length() > 0 && characterTyped.charAt(0) == 8) {
@@ -85,6 +93,9 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
                 allToDisplay.delete();
                 allToDisplay.XYPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                allToDisplay.deleteHjustify();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
 
             }
 
@@ -97,12 +108,39 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 fontSize += 4;
                 allToDisplay.fontUpdate(fontSize);
                 allToDisplay.XYPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                cursorSizeUpdate(allToDisplay.getCurrentHeight());
             } else if (code == KeyCode.DOWN) {
                 fontSize = Math.max(0, fontSize - 4);
                 allToDisplay.fontUpdate(fontSize);
                 allToDisplay.XYPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                cursorSizeUpdate(allToDisplay.getCurrentHeight());
             }
         }
+    }
+
+    private void cursorPosUpdate(double x, double y){
+        cursor.setX(x);
+        cursor.setY(y);
+    }
+
+    private void cursorSizeUpdate(double y){
+        cursor.setHeight(y);
+    }
+
+    public void makeCursorColorChange() {
+        // Create a Timeline that will call the "handle" function of RectangleBlinkEventHandler
+        // every 1 second.
+        final Timeline timeline = new Timeline();
+        // The rectangle should continue blinking forever.
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        RectangleBlinkEventHandler cursorChange = new RectangleBlinkEventHandler(cursor);
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), cursorChange);
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.play();
     }
 
 }

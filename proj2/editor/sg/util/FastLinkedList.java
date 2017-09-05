@@ -16,6 +16,9 @@ public class FastLinkedList {
     private String fontName = "Verdana";
     private double CurrentPosX;
     private double CurrentPosY;
+    private double ScanPosX;
+    private double ScanPosY;
+    private double CurrentHeight;
 
 
     public FastLinkedList(){
@@ -26,25 +29,53 @@ public class FastLinkedList {
         this.size = 0;
         CurrentPosX = MARGIN;
         CurrentPosY = 0;
+        CurrentHeight = 24;
     }
 
-    public double getCurrentPosX() {
-        return CurrentPosX;
+    private double getScanPosX() {
+        return ScanPosX;
     }
 
-    public double getCurrentPosY(){
-        return CurrentPosY;
+    private double getScanPosY(){
+        return ScanPosY;
     }
 
-    public Node getStartNode(){
+    Node getStartNode(){
         return sentinal.next;
     }
 
-    public Node getCurrentNode(){
+    Node getCurrentNode(){
         return currentNode;
     }
 
-    public boolean isEmpty(){
+    double getCurrentPosX() {
+        return CurrentPosX;
+    }
+
+    double getCurrentPosY() {
+        return CurrentPosY;
+    }
+
+    void CurrentPosUpdate(){
+        if (!currentNode.nodeText.getText().equals("\n")){
+            CurrentPosX = currentNode.nodeText.getX() + Math.round(currentNode.nodeText.getLayoutBounds().getWidth());
+            CurrentPosY = currentNode.nodeText.getY();
+        }else{
+            CurrentPosX = MARGIN;
+            double deltaH = Math.round(currentNode.pre.nodeText.getLayoutBounds().getHeight());
+            CurrentPosY += deltaH;
+        }
+
+    }
+
+    void deleteHjustify(){
+        if (currentNode.nodeText.getText().equals("\n")){
+            double deltaH = Math.round(currentNode.pre.nodeText.getLayoutBounds().getHeight());
+            CurrentPosY -= deltaH;
+        }
+    }
+
+    boolean isEmpty(){
         return this.size == 0;
     }
 
@@ -66,43 +97,45 @@ public class FastLinkedList {
         size += 1;
         currentNode = newNode;
     }
+    double getCurrentHeight(){return CurrentHeight;}
 
     void XYPosUpdate(){
         double TextWidth;
         double TextHeight = 0;
-        CurrentPosX = MARGIN;
-        CurrentPosY = 0;
+        ScanPosX = MARGIN;
+        ScanPosY = 0;
         if (!this.isEmpty()){
             Node starter = this.getStartNode();
             while(starter!=null){
                 // If starter is the first node
                 if (starter.pre == starter){
                     starter.nodeText.setTextOrigin(VPos.TOP);
-                    starter.nodeText.setX(getCurrentPosX());
-                    starter.nodeText.setY(getCurrentPosY());
+                    starter.nodeText.setX(getScanPosX());
+                    starter.nodeText.setY(getScanPosY());
                     TextHeight = Math.round(starter.nodeText.getLayoutBounds().getHeight());
                     TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
                     //CurrentPosY = TextHeight;
-                    CurrentPosX += TextWidth;
+                    CurrentHeight = TextHeight;
+                    ScanPosX += TextWidth;
                     starter = starter.next;
                 }else{     // If starter is not the first node
                     starter.nodeText.setTextOrigin(VPos.TOP);
                     // If the starter starts a new line
                     if (starter.pre.nodeText.getText().equals("\n")){
-                        CurrentPosY += TextHeight;
-                        CurrentPosX = MARGIN;
+                        ScanPosY += TextHeight;
+                        ScanPosX = MARGIN;
                         starter.nodeText.setTextOrigin(VPos.TOP);
-                        starter.nodeText.setX(getCurrentPosX());
-                        starter.nodeText.setY(getCurrentPosY());
+                        starter.nodeText.setX(getScanPosX());
+                        starter.nodeText.setY(getScanPosY());
                         TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
-                        CurrentPosX += TextWidth;
+                        ScanPosX += TextWidth;
                         starter = starter.next;
                     }else{
                         starter.nodeText.setTextOrigin(VPos.TOP);
-                        starter.nodeText.setX(getCurrentPosX());
-                        starter.nodeText.setY(getCurrentPosY());
+                        starter.nodeText.setX(getScanPosX());
+                        starter.nodeText.setY(getScanPosY());
                         TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
-                        CurrentPosX += TextWidth;
+                        ScanPosX += TextWidth;
                         starter = starter.next;
                     }
                 }
@@ -138,8 +171,8 @@ public class FastLinkedList {
 
 
     public class Node{
-            public Node pre, next;
-            public Text nodeText;
+            Node pre, next;
+            Text nodeText;
             Node(Node p, Node n, Text t){
                 pre = p;
                 next = n;

@@ -1,5 +1,7 @@
 package editor;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -7,16 +9,22 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
 
+import javafx.util.Duration;
 import sg.util.FastLinkedList;
 import sg.util.Print;
 import sg.util.KeyEventHandler;
+import sg.util.RectangleBlinkEventHandler;
+
 
 public class Editor extends Application {
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
     private static FastLinkedList initialDisplay = new FastLinkedList();
     private static String filename;
+    private Rectangle cursor = new Rectangle(1,24);
+
 
 
     @Override
@@ -27,16 +35,21 @@ public class Editor extends Application {
         // of the window displayed.
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.WHITE);
 
+
+
         // To get information about what keys the user is pressing, create an EventHandler.
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
         EventHandler<KeyEvent> keyEventHandler =
-                new KeyEventHandler(root, filename, initialDisplay);
+                new KeyEventHandler(root, filename, initialDisplay, cursor);
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
 
         primaryStage.setTitle("SJ's Editor");
+        // Initialize cursor parameters
+
+
 
         // This is boilerplate, necessary to setup the window where things are displayed.
         primaryStage.setScene(scene);
