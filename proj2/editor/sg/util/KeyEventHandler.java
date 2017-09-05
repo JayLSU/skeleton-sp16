@@ -13,8 +13,6 @@ import javafx.util.Duration;
 /** An EventHandler to handle keys that get pressed. */
 public class KeyEventHandler implements EventHandler<KeyEvent> {
     private static final int MARGIN = 5;
-    private static final String MESSAGE_PREFIX =
-            "User pressed the shortcut key (command or control, depending on the OS)";
 
 
     private static final int STARTING_FONT_SIZE = 20;
@@ -131,7 +129,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         cursor.setHeight(y);
     }
 
-    public void makeCursorColorChange() {
+    private void makeCursorColorChange() {
         // Create a Timeline that will call the "handle" function of RectangleBlinkEventHandler
         // every 1 second.
         final Timeline timeline = new Timeline();

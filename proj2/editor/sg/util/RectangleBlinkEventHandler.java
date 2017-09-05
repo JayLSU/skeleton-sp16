@@ -11,7 +11,7 @@ public class RectangleBlinkEventHandler implements EventHandler<ActionEvent> {
     private Color[] boxColors =
             {Color.BLACK, Color.WHITE};
 
-    public RectangleBlinkEventHandler(Rectangle R) {
+    RectangleBlinkEventHandler(Rectangle R) {
         // Set the color to be the first color in the list.
         changeColor();
         textBoundingBox = R;

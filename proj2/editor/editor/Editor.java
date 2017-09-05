@@ -1,7 +1,5 @@
 package editor;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -11,11 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 
-import javafx.util.Duration;
 import sg.util.FastLinkedList;
 import sg.util.Print;
 import sg.util.KeyEventHandler;
-import sg.util.RectangleBlinkEventHandler;
 
 
 public class Editor extends Application {
