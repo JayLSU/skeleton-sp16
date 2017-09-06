@@ -65,6 +65,29 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 System.out.println("User pressed the shortcut key (command or control, depending on the OS)" + " in addition to \"z\"");
             } else if (keyEvent.getCode() == KeyCode.S){
                 SaveFile.save(filename, allToDisplay);
+            } else if (keyEvent.getCode() == KeyCode.PLUS || keyEvent.getCode() == KeyCode.EQUALS){
+                fontSize += 4;
+                allToDisplay.fontUpdate(fontSize);
+                allToDisplay.XYPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
+                    double deltaH = allToDisplay.getCursorHeight();
+                    allToDisplay.CurrentPosY = allToDisplay.getCurrentNode().nodeText.getY()+ deltaH;
+                }
+
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                cursorSizeUpdate(allToDisplay.getCursorHeight());
+            } else if (keyEvent.getCode() == KeyCode.MINUS){
+                fontSize = Math.max(0, fontSize - 4);
+                allToDisplay.fontUpdate(fontSize);
+                allToDisplay.XYPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
+                    double deltaH = allToDisplay.getCursorHeight();
+                    allToDisplay.CurrentPosY = allToDisplay.getCurrentNode().nodeText.getY()+ deltaH;
+                }
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                cursorSizeUpdate(allToDisplay.getCursorHeight());
             }
         }else if (keyEvent.getEventType() == KeyEvent.KEY_TYPED) {
             // Use the KEY_TYPED event rather than KEY_PRESSED for letter keys, because with
@@ -112,28 +135,15 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             // KeyCode).
             KeyCode code = keyEvent.getCode();
             if (code == KeyCode.UP) {
-                fontSize += 4;
-                allToDisplay.fontUpdate(fontSize);
-                allToDisplay.XYPosUpdate();
-                allToDisplay.CurrentPosUpdate();
-                if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
-                    double deltaH = allToDisplay.getCursorHeight();
-                    allToDisplay.CurrentPosY = allToDisplay.getCurrentNode().nodeText.getY()+ deltaH;
-                }
 
-                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-                cursorSizeUpdate(allToDisplay.getCursorHeight());
+                // Keyevent with up arrow key
+                double TempCurPosX = allToDisplay.getCurrentPosX();
+
             } else if (code == KeyCode.DOWN) {
-                fontSize = Math.max(0, fontSize - 4);
-                allToDisplay.fontUpdate(fontSize);
-                allToDisplay.XYPosUpdate();
-                allToDisplay.CurrentPosUpdate();
-                if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
-                    double deltaH = allToDisplay.getCursorHeight();
-                    allToDisplay.CurrentPosY = allToDisplay.getCurrentNode().nodeText.getY()+ deltaH;
-                }
-                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-                cursorSizeUpdate(allToDisplay.getCursorHeight());
+
+                // Keyevent with down arrow key
+                double TempCurPosX = allToDisplay.getCurrentPosX();
+
             }
         }
     }
