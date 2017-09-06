@@ -92,13 +92,18 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             }else if (characterTyped.length() > 0 && characterTyped.charAt(0) == 8) {
                 // Ignore control keys, which have non-zero length, as well as the backspace
                 // key, which is represented as a character of value = 8 on Windows.
-                temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
-                allToDisplay.delete();
-                allToDisplay.XYPosUpdate();
-                allToDisplay.CurrentPosUpdate();
-                allToDisplay.deleteHjustify();
-                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-
+                if (!allToDisplay.getCurrentNode().nodeText.getText().equals("\n")&&allToDisplay.getCurrentNode().pre.nodeText.getText().equals("\n")){
+                    temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
+                    allToDisplay.delete();
+                    allToDisplay.XYPosUpdate();allToDisplay.CurrentPosUpdate();
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }else{
+                    temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
+                    allToDisplay.delete();
+                    allToDisplay.XYPosUpdate();allToDisplay.CurrentPosUpdate();
+                    allToDisplay.deleteHjustify();
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }
             }
 
         } else if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
