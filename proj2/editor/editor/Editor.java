@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import sg.util.FastLinkedList;
 import sg.util.Print;
 import sg.util.KeyEventHandler;
+import sg.util.LineStarterArray;
 
 
 public class Editor extends Application {
@@ -20,7 +21,7 @@ public class Editor extends Application {
     private static FastLinkedList initialDisplay = new FastLinkedList();
     private static String filename;
     private Rectangle cursor = new Rectangle(1,24);
-
+    private LineStarterArray<FastLinkedList.Node> starter = new LineStarterArray();
 
 
     @Override
@@ -37,7 +38,7 @@ public class Editor extends Application {
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
         EventHandler<KeyEvent> keyEventHandler =
-                new KeyEventHandler(root, filename, initialDisplay, cursor);
+                new KeyEventHandler(root, filename, initialDisplay, cursor, starter);
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);

@@ -24,8 +24,9 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private String filename;
     private Group temproot;
     private Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
+    private LineStarterArray<FastLinkedList.Node> LineStarterS = new LineStarterArray();
 
-    public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R) {
+    public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R, LineStarterArray<FastLinkedList.Node> S) {
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
         // that when the text is assigned a y-position, that position corresponds to the
         // highest position across all letters (for example, the top of a letter like "I", as
@@ -36,6 +37,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         cursor = R;
         cursor.setX(MARGIN);
         allToDisplay = InitialDis;
+        LineStarterS = S;
         AddContentToRoot(temproot, allToDisplay);
         temproot.getChildren().add(cursor);
         makeCursorColorChange();
@@ -151,6 +153,10 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private void cursorPosUpdate(double x, double y){
         cursor.setX(x);
         cursor.setY(y);
+    }
+
+    private void UpArrowEvent(double x){
+
     }
 
     private void cursorSizeUpdate(double y){
