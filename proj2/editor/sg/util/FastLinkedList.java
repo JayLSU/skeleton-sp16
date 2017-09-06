@@ -5,7 +5,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class FastLinkedList {
-    private Node sentinal;
+    Node sentinal;
     private Node currentNode;
     private int size;
     private static final int INITIAL_TEXT_POSITION_X = 0;
@@ -15,14 +15,15 @@ public class FastLinkedList {
     private int fontSize = STARTING_FONT_SIZE;
     private String fontName = "Verdana";
     private double CurrentPosX;
-    private double CurrentPosY;
+    double CurrentPosY;
     private double ScanPosX;
     private double ScanPosY;
     private double CurrentHeight;
-
+    private Text SentinalText = new Text(0, 0, "H");
 
     public FastLinkedList(){
-        this.sentinal = new Node(null, null, null);
+        this.sentinal = new Node(null, null, SentinalText);
+        this.sentinal.nodeText.setFont(Font.font(fontName, fontSize));
         this.sentinal.pre = sentinal;
         this.sentinal.next = sentinal;
         this.currentNode = new Node(null, null, null);
@@ -57,20 +58,23 @@ public class FastLinkedList {
     }
 
     void CurrentPosUpdate(){
-        if (!currentNode.nodeText.getText().equals("\n")){
+        if (this.isEmpty()){
+            CurrentPosX = MARGIN;
+            CurrentPosY = 0;
+        }else if (!currentNode.nodeText.getText().equals("\n")){
             CurrentPosX = currentNode.nodeText.getX() + Math.round(currentNode.nodeText.getLayoutBounds().getWidth());
             CurrentPosY = currentNode.nodeText.getY();
         }else{
             CurrentPosX = MARGIN;
-            double deltaH = Math.round(currentNode.pre.nodeText.getLayoutBounds().getHeight());
-            CurrentPosY += deltaH;
+            /*double deltaH = Math.round(sentinal.nodeText.getLayoutBounds().getHeight());
+            CurrentPosY += deltaH;*/
         }
 
     }
 
     void deleteHjustify(){
         if (currentNode.nodeText.getText().equals("\n")){
-            double deltaH = Math.round(currentNode.pre.nodeText.getLayoutBounds().getHeight());
+            double deltaH = Math.round(sentinal.nodeText.getLayoutBounds().getHeight());
             CurrentPosY -= deltaH;
         }
     }
@@ -97,7 +101,7 @@ public class FastLinkedList {
         size += 1;
         currentNode = newNode;
     }
-    double getCurrentHeight(){return CurrentHeight;}
+    double getCursorHeight(){return Math.round(sentinal.nodeText.getLayoutBounds().getHeight());}
 
     void XYPosUpdate(){
         double TextWidth;
@@ -158,7 +162,7 @@ public class FastLinkedList {
 
     void fontUpdate(int font){
         if (!this.isEmpty()){
-            Node tempNode = sentinal.next;
+            Node tempNode = sentinal;
             while(tempNode!=null){
                 fontSize = font;
                 tempNode.nodeText.setFont(Font.font(fontName,fontSize));

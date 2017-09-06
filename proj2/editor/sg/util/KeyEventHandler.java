@@ -39,6 +39,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         AddContentToRoot(temproot, allToDisplay);
         temproot.getChildren().add(cursor);
         makeCursorColorChange();
+        allToDisplay.CurrentPosUpdate();
+        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
     }
 
 
@@ -78,6 +80,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 // key, which is represented as a character of value = 8 on Windows.
                 if (characterTyped.equals("\r")){
                     characterTyped = "\n";
+                    double deltaH = Math.round(allToDisplay.sentinal.nodeText.getLayoutBounds().getHeight());
+                    allToDisplay.CurrentPosY += deltaH;
                 }
                 allToDisplay.add(characterTyped);
                 allToDisplay.XYPosUpdate();
@@ -107,15 +111,24 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 allToDisplay.fontUpdate(fontSize);
                 allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
+                if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
+                    double deltaH = allToDisplay.getCursorHeight();
+                    allToDisplay.CurrentPosY = allToDisplay.getCurrentNode().nodeText.getY()+ deltaH;
+                }
+
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-                cursorSizeUpdate(allToDisplay.getCurrentHeight());
+                cursorSizeUpdate(allToDisplay.getCursorHeight());
             } else if (code == KeyCode.DOWN) {
                 fontSize = Math.max(0, fontSize - 4);
                 allToDisplay.fontUpdate(fontSize);
                 allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
+                if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
+                    double deltaH = allToDisplay.getCursorHeight();
+                    allToDisplay.CurrentPosY = allToDisplay.getCurrentNode().nodeText.getY()+ deltaH;
+                }
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-                cursorSizeUpdate(allToDisplay.getCurrentHeight());
+                cursorSizeUpdate(allToDisplay.getCursorHeight());
             }
         }
     }
