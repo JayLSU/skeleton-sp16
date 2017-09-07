@@ -118,7 +118,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
 
                 temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
                 allToDisplay.delete();
-                allToDisplay.XYPosUpdate();allToDisplay.CurrentPosUpdate();
+                allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
             }
@@ -131,7 +131,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             if (code == KeyCode.UP) {
 
                 // Keyevent with up arrow key
-                double TempCurPosX = allToDisplay.getCurrentPosX();
+                UpArrowEvent();
 
             } else if (code == KeyCode.DOWN) {
 
@@ -147,7 +147,37 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         cursor.setY(y);
     }
 
-    private void UpArrowEvent(double x){
+    private void UpArrowEvent(){
+        if (!allToDisplay.isEmpty()){
+            double PosXRecord = MARGIN;
+            double TempCurPosX = allToDisplay.getCurrentPosX();
+            double TempCurPosY = allToDisplay.getCurrentPosY();
+            double CurrentLineNo = (TempCurPosY/allToDisplay.getCursorHeight() + 1);
+            double preLineY;
+            double diffX = 0;
+            double diffXpre = Math.abs(TempCurPosX - PosXRecord);
+            FastLinkedList.Node lastLineStarter;
+            if (CurrentLineNo != 1.0){
+                lastLineStarter = LineStarterS.get((int)CurrentLineNo - 2);
+                preLineY = lastLineStarter.nodeText.getY();
+                while(true){
+                    diffX = Math.abs(TempCurPosX - lastLineStarter.nodeText.getX() - Math.round(lastLineStarter.nodeText.getLayoutBounds().getWidth()));
+                    if (lastLineStarter.next.nodeText.getY()!=preLineY || diffXpre < diffX || diffX == 0){
+                        if (lastLineStarter.nodeText.getText().equals("\n") || TempCurPosX == MARGIN){
+                            allToDisplay.setCurNode(lastLineStarter.pre);
+                            break;
+                        }
+                        allToDisplay.setCurNode(lastLineStarter);
+                        break;
+                    }
+                    diffXpre = diffX;
+                    lastLineStarter = lastLineStarter.next;
+                    //PosXRecord = lastLineStarter.nodeText.getX();
+                }
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+            }
+        }
 
     }
 

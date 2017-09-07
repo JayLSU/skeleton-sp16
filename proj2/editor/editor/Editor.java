@@ -18,6 +18,7 @@ import sg.util.LineStarterArray;
 public class Editor extends Application {
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
+    private static final int MARGIN = 5;
     private static FastLinkedList initialDisplay = new FastLinkedList();
     private static String filename;
     private Rectangle cursor = new Rectangle(1,24);
@@ -58,7 +59,7 @@ public class Editor extends Application {
         if (!l.isEmpty()){
             FastLinkedList.Node tempScanNode = l.sentinal.next;
             while (tempScanNode != null){
-                if (tempScanNode.nodeText.getX() == 5){
+                if (tempScanNode.nodeText.getX() == MARGIN){
                     InitialStarterArray.addBack(tempScanNode);
                 }
                 tempScanNode = tempScanNode.next;

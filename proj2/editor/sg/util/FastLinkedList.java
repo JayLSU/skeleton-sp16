@@ -19,7 +19,7 @@ public class FastLinkedList {
     private double ScanPosX;
     private double ScanPosY;
     //private double CurrentHeight;
-    private Text SentinalText = new Text(0, 0, "H");
+    private Text SentinalText = new Text(MARGIN, 0, "");
 
     public FastLinkedList(){
         this.sentinal = new Node(null, null, SentinalText);
@@ -32,6 +32,12 @@ public class FastLinkedList {
         CurrentPosY = 0;
         //CurrentHeight = 24;
     }
+
+    void setCurPosX(double x){CurrentPosX = x;}
+
+    void setCurPosY(double y){CurrentPosY = y;}
+
+    void setCurNode(FastLinkedList.Node n){currentNode = n;}
 
     private double getScanPosX() {
         return ScanPosX;
@@ -84,7 +90,7 @@ public class FastLinkedList {
         newNode.nodeText.setFont(Font.font(fontName, fontSize));
         if (isEmpty()){
             sentinal.next = newNode;
-            newNode.pre = newNode;
+            newNode.pre = sentinal;
         }else{
             newNode.pre = currentNode;
             newNode.next = currentNode.next;
@@ -107,11 +113,11 @@ public class FastLinkedList {
             Node starter = this.getStartNode();
             while(starter!=null){
                 // If starter is the first node
-                if (starter.pre == starter){
+                if (starter.pre == sentinal){
                     starter.nodeText.setTextOrigin(VPos.TOP);
                     starter.nodeText.setX(getScanPosX());
                     starter.nodeText.setY(getScanPosY());
-                    TextHeight = Math.round(starter.nodeText.getLayoutBounds().getHeight());
+                    TextHeight = Math.round(sentinal.nodeText.getLayoutBounds().getHeight());
                     TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
                     //CurrentHeight = TextHeight;
                     ScanPosX += TextWidth;
@@ -149,6 +155,9 @@ public class FastLinkedList {
                 currentNode.next.pre = currentNode.pre;
             }
             currentNode.pre.next = currentNode.next;
+            currentNode.nodeText.setX(MARGIN);
+            currentNode.nodeText.setY(0);
+            currentNode.nodeText.setText("");
             currentNode = currentNode.pre;
             size -= 1;
         }
