@@ -21,7 +21,7 @@ public class Editor extends Application {
     private static FastLinkedList initialDisplay = new FastLinkedList();
     private static String filename;
     private Rectangle cursor = new Rectangle(1,24);
-    private LineStarterArray<FastLinkedList.Node> starter = new LineStarterArray();
+    private static LineStarterArray<FastLinkedList.Node> starter = new LineStarterArray();
 
 
     @Override
@@ -53,8 +53,25 @@ public class Editor extends Application {
         primaryStage.show();
     }
 
+    private static LineStarterArray<FastLinkedList.Node> getInitiallistToStarterArray(FastLinkedList l){
+        LineStarterArray<FastLinkedList.Node> InitialStarterArray = new LineStarterArray<>();
+        if (!l.isEmpty()){
+            FastLinkedList.Node tempScanNode = l.sentinal.next;
+            while (tempScanNode != null){
+                if (tempScanNode.nodeText.getX() == 5){
+                    InitialStarterArray.addBack(tempScanNode);
+                }
+                tempScanNode = tempScanNode.next;
+            }
+
+        }
+
+        return InitialStarterArray;
+    }
+
     public static void main(String[] args) {
         initialDisplay = Print.print(args);
+        starter = getInitiallistToStarterArray(initialDisplay);
         filename = args[0];
         launch(args);
     }

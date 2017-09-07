@@ -11,18 +11,17 @@ public class LineStarterArray<Blorp> {
     private int back;
     private int resizeFactor;
     private double usageFactor;
+    private static final int MARGIN = 5;
 
     public LineStarterArray(){
 /*        ClickingPosX = 0.0;
         ClickingPosY = 0.0;*/
-        LineStarters = (Blorp []) new Object[20];
+        LineStarters = (Blorp[]) new Object[20];
         TotalLine = 0;
         back = 0;
         resizeFactor = 2;
         usageFactor = 0.25;
     }
-
-
 
 /*    void setFontHeight(double fontheight){
         FontHeight = fontheight;
@@ -62,7 +61,7 @@ public class LineStarterArray<Blorp> {
 
     private void doublesize(){
         int newsize = resizeFactor * TotalLine;
-        Blorp[] temp = (Blorp []) new Object[newsize];
+        Blorp[] temp = (Blorp[]) new Object[newsize];
         System.arraycopy(LineStarters,0,temp,0,TotalLine);
         LineStarters = temp;
         back = TotalLine;
@@ -88,7 +87,7 @@ public class LineStarterArray<Blorp> {
         }
     }
 
-    void addBack(Blorp newNode){
+    public void addBack(Blorp newNode){
         if (this.isFull()){
             this.resize();
         }

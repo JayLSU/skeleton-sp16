@@ -5,7 +5,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class FastLinkedList {
-    Node sentinal;
+    public Node sentinal;
     private Node currentNode;
     private int size;
     private static final int INITIAL_TEXT_POSITION_X = 0;
@@ -18,7 +18,7 @@ public class FastLinkedList {
     double CurrentPosY;
     private double ScanPosX;
     private double ScanPosY;
-    private double CurrentHeight;
+    //private double CurrentHeight;
     private Text SentinalText = new Text(0, 0, "H");
 
     public FastLinkedList(){
@@ -30,7 +30,7 @@ public class FastLinkedList {
         this.size = 0;
         CurrentPosX = MARGIN;
         CurrentPosY = 0;
-        CurrentHeight = 24;
+        //CurrentHeight = 24;
     }
 
     private double getScanPosX() {
@@ -66,20 +66,15 @@ public class FastLinkedList {
             CurrentPosY = currentNode.nodeText.getY();
         }else{
             CurrentPosX = MARGIN;
-            /*double deltaH = Math.round(sentinal.nodeText.getLayoutBounds().getHeight());
-            CurrentPosY += deltaH;*/
-        }
-
-    }
-
-    void deleteHjustify(){
-        if (currentNode.nodeText.getText().equals("\n")){
             double deltaH = Math.round(sentinal.nodeText.getLayoutBounds().getHeight());
-            CurrentPosY -= deltaH;
+            CurrentPosY = currentNode.nodeText.getY();
+            CurrentPosY += deltaH;
         }
+
     }
 
-    boolean isEmpty(){
+
+    public boolean isEmpty(){
         return this.size == 0;
     }
 
@@ -118,8 +113,7 @@ public class FastLinkedList {
                     starter.nodeText.setY(getScanPosY());
                     TextHeight = Math.round(starter.nodeText.getLayoutBounds().getHeight());
                     TextWidth = Math.round(starter.nodeText.getLayoutBounds().getWidth());
-                    //CurrentPosY = TextHeight;
-                    CurrentHeight = TextHeight;
+                    //CurrentHeight = TextHeight;
                     ScanPosX += TextWidth;
                     starter = starter.next;
                 }else{     // If starter is not the first node
@@ -175,8 +169,8 @@ public class FastLinkedList {
 
 
     public class Node{
-            Node pre, next;
-            Text nodeText;
+            public Node pre, next;
+            public Text nodeText;
             Node(Node p, Node n, Text t){
                 pre = p;
                 next = n;

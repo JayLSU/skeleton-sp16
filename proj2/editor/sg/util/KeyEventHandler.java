@@ -24,7 +24,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private String filename;
     private Group temproot;
     private Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
-    private LineStarterArray<FastLinkedList.Node> LineStarterS = new LineStarterArray();
+    private LineStarterArray<FastLinkedList.Node> LineStarterS = new LineStarterArray<>();
 
     public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R, LineStarterArray<FastLinkedList.Node> S) {
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
@@ -105,8 +105,6 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 // key, which is represented as a character of value = 8 on Windows.
                 if (characterTyped.equals("\r")){
                     characterTyped = "\n";
-                    double deltaH = Math.round(allToDisplay.sentinal.nodeText.getLayoutBounds().getHeight());
-                    allToDisplay.CurrentPosY += deltaH;
                 }
                 allToDisplay.add(characterTyped);
                 allToDisplay.XYPosUpdate();
@@ -117,18 +115,12 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             }else if (characterTyped.length() > 0 && characterTyped.charAt(0) == 8) {
                 // Ignore control keys, which have non-zero length, as well as the backspace
                 // key, which is represented as a character of value = 8 on Windows.
-                if (!allToDisplay.getCurrentNode().nodeText.getText().equals("\n")&&allToDisplay.getCurrentNode().pre.nodeText.getText().equals("\n")){
-                    temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
-                    allToDisplay.delete();
-                    allToDisplay.XYPosUpdate();allToDisplay.CurrentPosUpdate();
-                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-                }else{
-                    temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
-                    allToDisplay.delete();
-                    allToDisplay.XYPosUpdate();allToDisplay.CurrentPosUpdate();
-                    allToDisplay.deleteHjustify();
-                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
-                }
+
+                temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
+                allToDisplay.delete();
+                allToDisplay.XYPosUpdate();allToDisplay.CurrentPosUpdate();
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
             }
 
         } else if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
