@@ -18,6 +18,7 @@ public class FastLinkedList {
     double CurrentPosY;
     private double ScanPosX;
     private double ScanPosY;
+    private static final int WINDOW_WIDTH = 500;
     private int lineWidth;
     //private double CurrentHeight;
     private Text SentinalText = new Text(MARGIN, 0, "");
@@ -31,22 +32,23 @@ public class FastLinkedList {
         this.size = 0;
         CurrentPosX = MARGIN;
         CurrentPosY = 0;
+        lineWidth = WINDOW_WIDTH;
         //CurrentHeight = 24;
     }
 
-    void setCurPosX(double x){CurrentPosX = x;}
+/*    void setCurPosX(double x){CurrentPosX = x;}
 
-    void setCurPosY(double y){CurrentPosY = y;}
+    void setCurPosY(double y){CurrentPosY = y;}*/
 
     void setCurNode(FastLinkedList.Node n){currentNode = n;}
 
-    private double getScanPosX() {
+    /*private double getScanPosX() {
         return ScanPosX;
     }
 
     private double getScanPosY(){
         return ScanPosY;
-    }
+    }*/
 
     Node getStartNode(){
         return sentinal.next;
@@ -84,6 +86,8 @@ public class FastLinkedList {
         lineWidth = L;
     }
 
+    public int getLineWidth(){return lineWidth;}
+
     public boolean isEmpty(){
         return this.size == 0;
     }
@@ -108,7 +112,7 @@ public class FastLinkedList {
     }
     double getCursorHeight(){return Math.round(sentinal.nodeText.getLayoutBounds().getHeight());}
 
-    void XYPosUpdate(){
+    /*void XYPosUpdate(){
         double TextWidth;
         double TextHeight = 0;
         ScanPosX = MARGIN;
@@ -151,7 +155,7 @@ public class FastLinkedList {
 
 
         }
-    }
+    }*/
 
     void delete(){
         if (!isEmpty()){

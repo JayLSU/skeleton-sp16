@@ -41,7 +41,8 @@ class ReadFile {
             // Close the reader.
             bufferedReader.close();
             //Update content Text positions
-            content.XYPosUpdate();
+            WordWrap.warp(content);
+            /*content.XYPosUpdate();*/
             System.out.println("Positions update done!");
 
         } catch (FileNotFoundException fileNotFoundException) {

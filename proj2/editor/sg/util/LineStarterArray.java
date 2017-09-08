@@ -10,8 +10,8 @@ public class LineStarterArray<Blorp> {
     private int TotalLine;
     private int back;
     private int resizeFactor;
-    private double usageFactor;
-    private static final int MARGIN = 5;
+/*    private double usageFactor;
+    private static final int MARGIN = 5;*/
 
     public LineStarterArray(){
 /*        ClickingPosX = 0.0;
@@ -20,7 +20,7 @@ public class LineStarterArray<Blorp> {
         TotalLine = 0;
         back = 0;
         resizeFactor = 2;
-        usageFactor = 0.25;
+        //usageFactor = 0.25;
     }
 
 /*    void setFontHeight(double fontheight){
@@ -36,20 +36,20 @@ public class LineStarterArray<Blorp> {
         return reminder;
     }
 
-    private int minusOne(int index){
+/*    private int minusOne(int index){
         int reminder = (index - 1);
         if (reminder < 0) {
             reminder = reminder + LineStarters.length;
         }
         return reminder;
-    }
-
+    }*/
+/*
     boolean isEmpty(){
         if (TotalLine == 0) {
             return true;
         }
         return false;
-    }
+    }*/
 
     boolean isFull(){
         if (TotalLine == LineStarters.length){
@@ -96,7 +96,7 @@ public class LineStarterArray<Blorp> {
         TotalLine += 1;
     }
 
-    Blorp removeBack(){
+    /*Blorp removeBack(){
         double currentUsage = (double) this.getTotalLine()/LineStarters.length;
         if (this.isEmpty()){
             return null;
@@ -109,7 +109,7 @@ public class LineStarterArray<Blorp> {
         Blorp removedNode = LineStarters[this.back];
         LineStarters[this.back] = null;
         return removedNode;
-    }
+    }*/
 
     int getTotalLine(){
         return this.TotalLine;
@@ -119,12 +119,14 @@ public class LineStarterArray<Blorp> {
         return LineStarters[i];
     }
 
+/*
     int getLen(){return LineStarters.length;}
+*/
 
-    void setStarterContent(int i, Blorp node){
+/*    void setStarterContent(int i, Blorp node){
         LineStarters[i] = node;
     }
-/*
+
     void  SetCursorLineStarter(){
         int ClickingLineNo = (int) Math.floor(ClickingPosY/FontHeight);
         CursorLineStarter = LineStarters[ClickingLineNo];
