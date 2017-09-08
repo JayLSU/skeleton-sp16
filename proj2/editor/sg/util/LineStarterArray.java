@@ -71,7 +71,7 @@ public class LineStarterArray<Blorp> {
     private void halfsize(){
         int newsize = LineStarters.length / resizeFactor;
         Blorp[] temp = (Blorp[]) new Object[newsize];
-        for(int i=0;i <= this.TotalLine();i++){
+        for(int i=0;i <= this.getTotalLine();i++){
             temp[i] = this.LineStarters[i];
         }
         LineStarters = temp;
@@ -97,7 +97,7 @@ public class LineStarterArray<Blorp> {
     }
 
     Blorp removeBack(){
-        double currentUsage = (double) this.TotalLine()/LineStarters.length;
+        double currentUsage = (double) this.getTotalLine()/LineStarters.length;
         if (this.isEmpty()){
             return null;
         }
@@ -111,7 +111,7 @@ public class LineStarterArray<Blorp> {
         return removedNode;
     }
 
-    int TotalLine(){
+    int getTotalLine(){
         return this.TotalLine;
     }
 

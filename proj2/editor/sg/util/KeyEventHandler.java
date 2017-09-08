@@ -9,6 +9,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.security.AlgorithmConstraints;
+
 
 /** An EventHandler to handle keys that get pressed. */
 public class KeyEventHandler implements EventHandler<KeyEvent> {
@@ -136,8 +138,11 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             } else if (code == KeyCode.DOWN) {
 
                 // Keyevent with down arrow key
-                double TempCurPosX = allToDisplay.getCurrentPosX();
-
+                DownArrowEvent();
+            } else if (code == KeyCode.LEFT){
+                LeftArrowEvent();
+            } else if (code == KeyCode.RIGHT){
+                RightArrowEvent();
             }
         }
     }
@@ -163,11 +168,11 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 while(true){
                     diffX = Math.abs(TempCurPosX - lastLineStarter.nodeText.getX() - Math.round(lastLineStarter.nodeText.getLayoutBounds().getWidth()));
                     if (lastLineStarter.next.nodeText.getY()!=preLineY || diffXpre < diffX || diffX == 0){
-                        if (lastLineStarter.nodeText.getText().equals("\n") || TempCurPosX == MARGIN){
-                            allToDisplay.setCurNode(lastLineStarter.pre);
+                        if (diffX ==0){
+                            allToDisplay.setCurNode(lastLineStarter);
                             break;
                         }
-                        allToDisplay.setCurNode(lastLineStarter);
+                        allToDisplay.setCurNode(lastLineStarter.pre);
                         break;
                     }
                     diffXpre = diffX;
@@ -179,6 +184,63 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             }
         }
 
+    }
+
+    private void DownArrowEvent(){
+        if (!allToDisplay.isEmpty()){
+            double PosXRecord = MARGIN;
+            double TempCurPosX = allToDisplay.getCurrentPosX();
+            double TempCurPosY = allToDisplay.getCurrentPosY();
+            double CurrentLineNo = (TempCurPosY/allToDisplay.getCursorHeight() + 1);
+            double preLineY;
+            double diffX = 0;
+            double diffXpre = Math.abs(TempCurPosX - PosXRecord);
+            double totalLine = LineStarterS.getTotalLine();
+            FastLinkedList.Node lastLineStarter;
+            if (CurrentLineNo != totalLine){
+                lastLineStarter = LineStarterS.get((int)CurrentLineNo);
+                preLineY = lastLineStarter.nodeText.getY();
+                while(true){
+                    diffX = Math.abs(TempCurPosX - lastLineStarter.nodeText.getX() - Math.round(lastLineStarter.nodeText.getLayoutBounds().getWidth()));
+                    if (lastLineStarter.next!=null){
+                        if (lastLineStarter.next.nodeText.getY()!=preLineY || diffXpre < diffX || diffX == 0){
+                            if (diffX ==0){
+                                allToDisplay.setCurNode(lastLineStarter);
+                                break;
+                            }
+                            allToDisplay.setCurNode(lastLineStarter.pre);
+                            break;
+                        }
+                        diffXpre = diffX;
+                        lastLineStarter = lastLineStarter.next;
+                    }else{
+                        allToDisplay.setCurNode(lastLineStarter);
+                        break;
+                    }
+
+                    //PosXRecord = lastLineStarter.nodeText.getX();
+                }
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+            }
+        }
+
+    }
+
+    private void LeftArrowEvent(){
+        if (!allToDisplay.isEmpty()){
+            allToDisplay.setCurNode(allToDisplay.getCurrentNode().pre);
+            allToDisplay.CurrentPosUpdate();
+            cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+        }
+    }
+
+    private void RightArrowEvent(){
+        if (!allToDisplay.isEmpty() && allToDisplay.getCurrentNode().next!=null){
+            allToDisplay.setCurNode(allToDisplay.getCurrentNode().next);
+            allToDisplay.CurrentPosUpdate();
+            cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+        }
     }
 
     private void cursorSizeUpdate(double y){
