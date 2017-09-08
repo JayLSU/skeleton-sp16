@@ -18,6 +18,7 @@ public class FastLinkedList {
     double CurrentPosY;
     private double ScanPosX;
     private double ScanPosY;
+    private int lineWidth;
     //private double CurrentHeight;
     private Text SentinalText = new Text(MARGIN, 0, "");
 
@@ -79,6 +80,9 @@ public class FastLinkedList {
 
     }
 
+    public void setLineWidth(int L){
+        lineWidth = L;
+    }
 
     public boolean isEmpty(){
         return this.size == 0;
@@ -158,8 +162,11 @@ public class FastLinkedList {
             currentNode.nodeText.setX(MARGIN);
             currentNode.nodeText.setY(0);
             currentNode.nodeText.setText("");
+            if (currentNode!=sentinal){
+                size -= 1;
+            }
             currentNode = currentNode.pre;
-            size -= 1;
+
         }
     }
 

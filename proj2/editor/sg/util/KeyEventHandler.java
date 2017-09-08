@@ -72,7 +72,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             } else if (keyEvent.getCode() == KeyCode.PLUS || keyEvent.getCode() == KeyCode.EQUALS){
                 fontSize += 4;
                 allToDisplay.fontUpdate(fontSize);
-                allToDisplay.XYPosUpdate();
+                WordWrap.warp(allToDisplay);
+                //allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
                 if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
                     double deltaH = allToDisplay.getCursorHeight();
@@ -84,7 +85,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             } else if (keyEvent.getCode() == KeyCode.MINUS){
                 fontSize = Math.max(0, fontSize - 4);
                 allToDisplay.fontUpdate(fontSize);
-                allToDisplay.XYPosUpdate();
+                WordWrap.warp(allToDisplay);
+                //allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
                 if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
                     double deltaH = allToDisplay.getCursorHeight();
@@ -109,7 +111,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                     characterTyped = "\n";
                 }
                 allToDisplay.add(characterTyped);
-                allToDisplay.XYPosUpdate();
+                WordWrap.warp(allToDisplay);
+                //allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
                 temproot.getChildren().add(allToDisplay.getCurrentNode().nodeText);
@@ -120,7 +123,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
 
                 temproot.getChildren().remove(allToDisplay.getCurrentNode().nodeText);
                 allToDisplay.delete();
-                allToDisplay.XYPosUpdate();
+                WordWrap.warp(allToDisplay);
+                //allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
             }

@@ -1,6 +1,8 @@
 package editor;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,6 +26,9 @@ public class Editor extends Application {
     private Rectangle cursor = new Rectangle(1,24);
     private static LineStarterArray<FastLinkedList.Node> starter = new LineStarterArray();
 
+    private int getDimensionInsideMargin(int outsideDimension) {
+        return outsideDimension - 2 * MARGIN;
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -34,7 +39,6 @@ public class Editor extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.WHITE);
 
 
-
         // To get information about what keys the user is pressing, create an EventHandler.
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
@@ -43,6 +47,17 @@ public class Editor extends Application {
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
+
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(
+                    ObservableValue<? extends Number> observableValue,
+                    Number oldScreenWidth,
+                    Number newScreenWidth) {
+                // Re-compute Allen's width.
+                int newlineWidth = getDimensionInsideMargin(newScreenWidth.intValue());
+                initialDisplay.setLineWidth(newlineWidth);
+            }
+        });
 
         primaryStage.setTitle("SJ's Editor");
         // Initialize cursor parameters
