@@ -70,6 +70,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 System.out.println("User pressed the shortcut key (command or control, depending on the OS)" + " in addition to \"z\"");
             } else if (keyEvent.getCode() == KeyCode.S){
                 SaveFile.save(filename, allToDisplay);
+            } else if (keyEvent.getCode() == KeyCode.P){
+                System.out.println((int)cursor.getX() + ", " + (int)cursor.getY());
             } else if (keyEvent.getCode() == KeyCode.PLUS || keyEvent.getCode() == KeyCode.EQUALS){
                 fontSize += 4;
                 allToDisplay.fontUpdate(fontSize);
