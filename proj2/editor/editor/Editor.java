@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
@@ -15,6 +16,7 @@ import sg.util.FastLinkedList;
 import sg.util.Print;
 import sg.util.KeyEventHandler;
 import sg.util.LineStarterArray;
+import sg.util.MouseClickEventHandler;
 
 
 public class Editor extends Application {
@@ -25,6 +27,8 @@ public class Editor extends Application {
     private static String filename;
     private Rectangle cursor = new Rectangle(1,24);
     private static LineStarterArray<FastLinkedList.Node> starter = new LineStarterArray();
+    private double ClickPosX = 0.0;
+    private double ClickPosY = 0.0;
 
     private int getDimensionInsideMargin(int outsideDimension) {
         return outsideDimension - 2 * MARGIN;
@@ -47,6 +51,7 @@ public class Editor extends Application {
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
+        scene.setOnMouseClicked(new MouseClickEventHandler(root, KeyEventHandler.returnAllToDisplay(), KeyEventHandler.getCursor()));
 
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(

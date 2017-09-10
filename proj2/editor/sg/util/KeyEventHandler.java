@@ -1,5 +1,6 @@
 package sg.util;
 
+import com.sun.org.apache.regexp.internal.RE;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -19,14 +20,14 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
 
     private static final int STARTING_FONT_SIZE = 20;
 
-    private FastLinkedList allToDisplay = new FastLinkedList();
+    private static FastLinkedList allToDisplay = new FastLinkedList();
     /** The Text to display on the screen. */
     //private Text displayText = new Text(STARTING_TEXT_POSITION_X + MARGIN, STARTING_TEXT_POSITION_Y, "");
     private int fontSize = STARTING_FONT_SIZE;
     private String filename;
     private Group temproot;
-    private Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
-    private LineStarterArray<FastLinkedList.Node> LineStarterS = new LineStarterArray<>();
+    private static Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
+    private static LineStarterArray<FastLinkedList.Node> LineStarterS = new LineStarterArray<>();
 
     public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R, LineStarterArray<FastLinkedList.Node> S) {
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
@@ -155,6 +156,16 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         }
     }
 
+    public static FastLinkedList returnAllToDisplay(){
+        return allToDisplay;
+    }
+
+    public static LineStarterArray<FastLinkedList.Node> getLineStarterS() {
+        return LineStarterS;
+    }
+
+    public static Rectangle getCursor(){return cursor;}
+
     private void cursorPosUpdate(double x, double y){
         cursor.setX(x);
         cursor.setY(y);
@@ -163,8 +174,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private void UpArrowEvent(){
         if (!allToDisplay.isEmpty()){
             double PosXRecord = MARGIN;
-            double TempCurPosX = allToDisplay.getCurrentPosX();
-            double TempCurPosY = allToDisplay.getCurrentPosY();
+            double TempCurPosX = cursor.getX();//allToDisplay.getCurrentPosX();
+            double TempCurPosY = cursor.getY();//allToDisplay.getCurrentPosY();
             double CurrentLineNo = (TempCurPosY/allToDisplay.getCursorHeight() + 1);
             double preLineY;
             double diffX = 0;
@@ -185,6 +196,13 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                         if (diffX ==0 && lastLineStarter.next.nodeText.getY()==preLineY){
                             allToDisplay.setCurNode(lastLineStarter);
                             break;
+                        }else if(lastLineStarter.next.nodeText.getY()!=preLineY && !lastLineStarter.nodeText.getText().equals("\n")){
+                            if (diffXpre < diffX ){
+                                allToDisplay.setCurNode(lastLineStarter.pre);
+                            }else{
+                                allToDisplay.setCurNode(lastLineStarter);
+                            }
+                            break;
                         }
                         allToDisplay.setCurNode(lastLineStarter.pre);
                         break;
@@ -194,7 +212,22 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                     //PosXRecord = lastLineStarter.nodeText.getX();
                 }
                 allToDisplay.CurrentPosUpdate();
-                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+
+                if (allToDisplay.getCurrentNode().next.nodeText.getX() == MARGIN){
+                    /*if (allToDisplay.getCurrentNode().nodeText.getText().equals("\n")){
+                        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                    }
+                    cursorPosUpdate(MARGIN, allToDisplay.getCurrentNode().next.nodeText.getY());*/
+                    if ((cursor.getY() - allToDisplay.getCurrentNode().nodeText.getY() > allToDisplay.getCursorHeight()
+                            || allToDisplay.getCurrentNode() == allToDisplay.sentinal)){
+                        cursorPosUpdate(MARGIN, allToDisplay.getCurrentNode().next.nodeText.getY());
+                    }else{
+                        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                    }
+                }else{
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }
+
             }
         }
 
@@ -203,69 +236,125 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private void DownArrowEvent(){
         if (!allToDisplay.isEmpty() && (allToDisplay.getCurrentNode().next != null) ){ // List is not empty and the current node is not the last node
             double PosXRecord = MARGIN;
-            double TempCurPosX = allToDisplay.getCurrentPosX();
-            double TempCurPosY = allToDisplay.getCurrentPosY();
+            double TempCurPosX = cursor.getX();//allToDisplay.getCurrentPosX();
+            double TempCurPosY = cursor.getY();//allToDisplay.getCurrentPosY();
             double CurrentLineNo = (TempCurPosY/allToDisplay.getCursorHeight() + 1);
             double preLineY;
             double diffX = 0;
             double diffXpre = Math.abs(TempCurPosX - PosXRecord);
             double totalLine = LineStarterS.getTotalLine();
             FastLinkedList.Node nextLineStarter;
-            // If current line is not the last line or the end of line is "\n"
-            if (CurrentLineNo != totalLine || allToDisplay.getCurrentNode().next.nodeText.getText().equals("\n")){
-                nextLineStarter = LineStarterS.get((int)CurrentLineNo);
-                if (nextLineStarter == null){ // the end of the last line is "\n"
-                    allToDisplay.setCurNode(allToDisplay.getCurrentNode().next);
-                }else{
-                    preLineY = nextLineStarter.nodeText.getY();
-                    while(true){
-                        diffX = Math.abs(TempCurPosX - nextLineStarter.nodeText.getX() - Math.round(nextLineStarter.nodeText.getLayoutBounds().getWidth()));
-                        if (nextLineStarter.next!=null){
-                            if (nextLineStarter.next.nodeText.getY()!=preLineY || diffXpre < diffX || diffX == 0){
-                                if (diffX ==0 && (nextLineStarter.next.nodeText.getY()==preLineY )){
-                                    allToDisplay.setCurNode(nextLineStarter);
-                                    break;
-                                }
-                                allToDisplay.setCurNode(nextLineStarter.pre);
-                                break;
-                            }
-                            diffXpre = diffX;
-                            nextLineStarter = nextLineStarter.next;
-                        }else{
-                            if (nextLineStarter.nodeText.getText().equals("\n")){
-                                allToDisplay.setCurNode(nextLineStarter.pre);
-                                break;
-                            }
 
-                            allToDisplay.setCurNode(nextLineStarter);
+            if (CurrentLineNo != totalLine ){ // Current line is not the last line
+                nextLineStarter = LineStarterS.get((int)CurrentLineNo);
+
+                preLineY = nextLineStarter.nodeText.getY();
+                while(true) {
+                    diffX = Math.abs(TempCurPosX - nextLineStarter.nodeText.getX() - Math.round(nextLineStarter.nodeText.getLayoutBounds().getWidth()));
+                    if (nextLineStarter.next != null) {
+                        if (nextLineStarter.next.nodeText.getY() != preLineY || diffXpre < diffX || diffX == 0) {// next charater is on the other line or previous X is the smallest or current X = X after up arrow key pressed
+                            if (diffX == 0  && nextLineStarter.next.nodeText.getY() == preLineY) {
+                                allToDisplay.setCurNode(nextLineStarter);
+                                break;
+                            }else if(nextLineStarter.next.nodeText.getY() != preLineY && !nextLineStarter.next.nodeText.getText().equals("\n")){
+                                if (diffXpre < diffX ){
+                                    allToDisplay.setCurNode(nextLineStarter.pre);
+                                }else{
+                                    allToDisplay.setCurNode(nextLineStarter);
+                                }
+                                break;
+                            }
+                            allToDisplay.setCurNode(nextLineStarter.pre);
                             break;
                         }
-
-                        //PosXRecord = lastLineStarter.nodeText.getX();
+                        diffXpre = diffX;
+                        nextLineStarter = nextLineStarter.next;
+                    } else {
+                        if (nextLineStarter.nodeText.getText().equals("\n")) {
+                            allToDisplay.setCurNode(nextLineStarter.pre);
+                            break;
+                        }
+                        allToDisplay.setCurNode(nextLineStarter);
+                        break;
                     }
+                    //PosXRecord = lastLineStarter.nodeText.getX();
+                }
+                allToDisplay.CurrentPosUpdate();
+                if (allToDisplay.getCurrentNode().next==null){
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }else if (allToDisplay.getCurrentNode().next.nodeText.getX() == MARGIN){
+                    if (allToDisplay.getCurrentNode().nodeText.getY() != cursor.getY()){
+                        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                    }else{
+                        cursorPosUpdate(MARGIN, allToDisplay.getCurrentNode().next.nodeText.getY());
+
+                    }
+                }else{
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
                 }
 
-
-                allToDisplay.CurrentPosUpdate();
-                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+            }else{
+                nextLineStarter = LineStarterS.get((int)CurrentLineNo - 1);
+                while(nextLineStarter.next!=null){
+                    nextLineStarter = nextLineStarter.next;
+                }
+                if (nextLineStarter.nodeText.getText().equals("\n")){
+                    allToDisplay.setCurNode(nextLineStarter);
+                    allToDisplay.CurrentPosUpdate();
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }
             }
+
         }
 
     }
 
     private void LeftArrowEvent(){
         if (!allToDisplay.isEmpty()){
-            allToDisplay.setCurNode(allToDisplay.getCurrentNode().pre);
-            allToDisplay.CurrentPosUpdate();
-            cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+            if (allToDisplay.getCurrentNode().next!=null){
+                if (!allToDisplay.getCurrentNode().nodeText.getText().equals("\n") && allToDisplay.getCurrentNode()!=null
+                        && allToDisplay.getCurrentNode().next.nodeText.getX() == MARGIN && allToDisplay.getCurrentPosX() != cursor.getX()){
+                    // if current node is not \n and null, next node is line starter (caused by word wrap). Meanwhile, cursor position is not consistent.
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }else{
+                    allToDisplay.setCurNode(allToDisplay.getCurrentNode().pre);
+                    allToDisplay.CurrentPosUpdate();
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                    if (!allToDisplay.getCurrentNode().nodeText.getText().equals("\n") && allToDisplay.getCurrentNode()!=null
+                            && allToDisplay.getCurrentNode().next.nodeText.getX() == MARGIN){// if current node is not \n and null, next node is line starter (caused by word wrap)
+                        cursorPosUpdate(MARGIN, allToDisplay.getCurrentNode().next.nodeText.getY());
+                    }
+                }
+            }else{
+                allToDisplay.setCurNode(allToDisplay.getCurrentNode().pre);
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                if (!allToDisplay.getCurrentNode().nodeText.getText().equals("\n") && allToDisplay.getCurrentNode()!=null
+                        && allToDisplay.getCurrentNode().next.nodeText.getX() == MARGIN){// if current node is not \n and null, next node is line starter (caused by word wrap)
+                    cursorPosUpdate(MARGIN, allToDisplay.getCurrentNode().next.nodeText.getY());
+                }
+            }
+
         }
     }
 
     private void RightArrowEvent(){
         if (!allToDisplay.isEmpty() && allToDisplay.getCurrentNode().next!=null){
-            allToDisplay.setCurNode(allToDisplay.getCurrentNode().next);
-            allToDisplay.CurrentPosUpdate();
-            cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+            if (allToDisplay.getCurrentNode()!=allToDisplay.sentinal){
+                if (!allToDisplay.getCurrentNode().nodeText.getText().equals("\n")
+                        && allToDisplay.getCurrentNode().next.nodeText.getX() == MARGIN && allToDisplay.getCurrentPosX() == cursor.getX()) {// Current node is not \n
+                    // && next node is a line starter (caused by word wrap) && cursor position is consistent
+                    cursorPosUpdate(MARGIN, allToDisplay.getCurrentNode().next.nodeText.getY());
+                }else{
+                    allToDisplay.setCurNode(allToDisplay.getCurrentNode().next);
+                    allToDisplay.CurrentPosUpdate();
+                    cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                }
+            }else{
+                allToDisplay.setCurNode(allToDisplay.getCurrentNode().next);
+                allToDisplay.CurrentPosUpdate();
+                cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+            }
         }
     }
 
