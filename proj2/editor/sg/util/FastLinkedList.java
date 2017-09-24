@@ -58,15 +58,15 @@ public class FastLinkedList {
         return currentNode;
     }
 
-    double getCurrentPosX() {
+    public double getCurrentPosX() {
         return CurrentPosX;
     }
 
-    double getCurrentPosY() {
+    public double getCurrentPosY() {
         return CurrentPosY;
     }
 
-    void CurrentPosUpdate(){
+    public void CurrentPosUpdate(){
         if (this.isEmpty()){
             CurrentPosX = MARGIN;
             CurrentPosY = 0;

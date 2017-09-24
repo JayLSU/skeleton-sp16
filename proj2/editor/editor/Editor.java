@@ -12,11 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 
-import sg.util.FastLinkedList;
-import sg.util.Print;
-import sg.util.KeyEventHandler;
-import sg.util.LineStarterArray;
-import sg.util.MouseClickEventHandler;
+import sg.util.*;
 
 
 public class Editor extends Application {
@@ -61,6 +57,11 @@ public class Editor extends Application {
                 // Re-compute Allen's width.
                 int newlineWidth = getDimensionInsideMargin(newScreenWidth.intValue());
                 initialDisplay.setLineWidth(newlineWidth);
+                WordWrap.warp(initialDisplay);
+                //LineStarterS = WordWrap.getStarterA();
+                //allToDisplay.XYPosUpdate();
+                initialDisplay.CurrentPosUpdate();
+                cursorPosUpdate(initialDisplay.getCurrentPosX(), initialDisplay.getCurrentPosY());
             }
         });
 
@@ -73,7 +74,10 @@ public class Editor extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    private void cursorPosUpdate(double x, double y){
+        cursor.setX(x);
+        cursor.setY(y);
+    }
     private static LineStarterArray<FastLinkedList.Node> getInitiallistToStarterArray(FastLinkedList l){
         LineStarterArray<FastLinkedList.Node> InitialStarterArray = new LineStarterArray<>();
         if (!l.isEmpty()){
