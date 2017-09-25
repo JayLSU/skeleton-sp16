@@ -41,11 +41,19 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         cursor.setX(MARGIN);
         allToDisplay = InitialDis;
         LineStarterS = S;
+
+        WordWrap.warp(allToDisplay);
+        LineStarterS = WordWrap.getStarterA();
+        //allToDisplay.XYPosUpdate();
+        allToDisplay.CurrentPosUpdate();
+        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+
+
         AddContentToRoot(temproot, allToDisplay);
         temproot.getChildren().add(cursor);
         makeCursorColorChange();
-        allToDisplay.CurrentPosUpdate();
-        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+/*        allToDisplay.CurrentPosUpdate();
+        cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());*/
     }
 
 
