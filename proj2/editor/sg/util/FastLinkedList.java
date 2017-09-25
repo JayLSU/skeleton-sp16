@@ -54,7 +54,7 @@ public class FastLinkedList {
         return sentinal.next;
     }
 
-    Node getCurrentNode(){
+    public Node getCurrentNode(){
         return currentNode;
     }
 

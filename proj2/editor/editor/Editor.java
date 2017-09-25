@@ -50,7 +50,7 @@ public class Editor extends Application {
 
         // Set the range of the scroll bar.
         scrollBar.setMin(0);
-        scrollBar.setMax(500);
+        scrollBar.setMax(WINDOW_HEIGHT);
 
         // Add the scroll bar to the scene graph, so that it appears on the screen.
         root.getChildren().add(scrollBar);
@@ -72,6 +72,19 @@ public class Editor extends Application {
                 // Here, we can directly use the value of the scroll bar to set the height of Josh,
                 // because of how we set the minimum and maximum above.
 
+
+                double LineHeight = Math.round(initialDisplay.sentinal.nodeText.getLayoutBounds().getHeight());
+
+                WordWrap.warp(initialDisplay);
+                LineStarterArray<FastLinkedList.Node> LineStarterS = WordWrap.getStarterA();
+                int numOfLine = LineStarterS.getTotalLine();
+
+                int numOfInWindowLine = (int) Math.floor(WINDOW_HEIGHT/LineHeight);
+                int numOfOutWindowLine = numOfLine - numOfInWindowLine;
+                double TotalHeight = numOfLine * LineHeight;
+                double move =-Math.max(0,newValue.doubleValue()/WINDOW_HEIGHT*(TotalHeight-WINDOW_HEIGHT));
+                int Intmove = (int) (Math.round(move/LineHeight)*LineHeight);
+                textRoot.setLayoutY(Intmove);
             }
         });
 

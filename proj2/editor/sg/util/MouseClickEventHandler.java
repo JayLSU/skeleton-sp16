@@ -49,7 +49,7 @@ public class MouseClickEventHandler implements EventHandler<MouseEvent> {
         currentNodeUpdate();
 
         // Display text right above the click.
-        //positionText.setText("(" + mousePressedX + ", " + mousePressedY + ")");
+        positionText.setText("(" + mousePressedX + ", " + mousePressedY + ")");
         positionText.setX(mousePressedX);
         positionText.setY(mousePressedY);
     }

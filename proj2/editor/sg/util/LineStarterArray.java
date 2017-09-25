@@ -111,7 +111,7 @@ public class LineStarterArray<Blorp> {
         return removedNode;
     }*/
 
-    int getTotalLine(){
+    public int getTotalLine(){
         return this.TotalLine;
     }
 
