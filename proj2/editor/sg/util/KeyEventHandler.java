@@ -284,7 +284,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                                 allToDisplay.setCurNode(nextLineStarter);
                                 break;
                             }else if(nextLineStarter.next.nodeText.getY() != preLineY && !nextLineStarter.next.nodeText.getText().equals("\n")){
-                                if (diffXpre < diffX ){
+                                if (diffXpre < diffX || nextLineStarter.nodeText.getText().equals("\n")){
                                     allToDisplay.setCurNode(nextLineStarter.pre);
                                 }else{
                                     allToDisplay.setCurNode(nextLineStarter);
