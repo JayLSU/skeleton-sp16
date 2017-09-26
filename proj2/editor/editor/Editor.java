@@ -86,6 +86,7 @@ public class Editor extends Application {
                 IntMove = (int) (Math.floor(move/LineHeight)*LineHeight);
                 textRoot.setLayoutY(IntMove);
                 KeyEventHandler.setMove(IntMove);
+                MouseClickEventHandler.setMove(IntMove);
             }
         });
 

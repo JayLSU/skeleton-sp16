@@ -13,6 +13,7 @@ public class MouseClickEventHandler implements EventHandler<MouseEvent> {
     Text positionText;
     private double mousePressedX;
     private double mousePressedY;
+    private static int IntMove = 0;
     private static FastLinkedList allToDis = new FastLinkedList();
     private static LineStarterArray<FastLinkedList.Node> lineStarter = new LineStarterArray<>();
     private static Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
@@ -36,6 +37,9 @@ public class MouseClickEventHandler implements EventHandler<MouseEvent> {
         cursor = C;
         allToDis = L;
     }
+    public static void setMove(int M){
+        IntMove = M;
+    }
 
 
     @Override
@@ -45,7 +49,7 @@ public class MouseClickEventHandler implements EventHandler<MouseEvent> {
         // with mouse events of type MouseEvent.MOUSE_CLICKED.  A mouse clicked event is
         // generated anytime the mouse is pressed and released on the same JavaFX node.
         mousePressedX = mouseEvent.getX();
-        mousePressedY = mouseEvent.getY();
+        mousePressedY = mouseEvent.getY()-IntMove;
         currentNodeUpdate();
 
         // Display text right above the click.
