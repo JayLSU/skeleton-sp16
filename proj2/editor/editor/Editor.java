@@ -151,6 +151,12 @@ public class Editor extends Application {
 
     public static void main(String[] args) {
         initialDisplay = Print.print(args);
+        if (initialDisplay.isEmpty()){
+            String gift_text = "Shengjie loves Peiyun!";
+            for (int index=0 ; index < gift_text.length(); index++){
+                initialDisplay.add(Character.toString(gift_text.charAt(index)));
+            }
+        }
         starter = getInitiallistToStarterArray(initialDisplay);
         filename = args[0];
         launch(args);

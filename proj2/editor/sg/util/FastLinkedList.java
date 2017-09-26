@@ -92,7 +92,7 @@ public class FastLinkedList {
         return this.size == 0;
     }
 
-    void add(String CharTyped){
+    public void add(String CharTyped){
         Node newNode = new Node(null, null, null);
         newNode.nodeText = new Text (INITIAL_TEXT_POSITION_X + MARGIN, INITIAL_TEXT_POSITION_Y, CharTyped);
         newNode.nodeText.setFont(Font.font(fontName, fontSize));
