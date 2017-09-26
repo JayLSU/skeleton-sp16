@@ -137,16 +137,11 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 allToDisplay.CurrentPosUpdate();
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
                 temproot.getChildren().add(allToDisplay.getCurrentNode().nodeText);
-                if (IntMove!=0){
+                if (cursor.getY() + IntMove < 0){
                     MoveToTop();
                 }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
                     MoveToBottom();
                 }
-
-
-
-
-
                 keyEvent.consume();
             }else if (characterTyped.length() > 0 && characterTyped.charAt(0) == 8) {
                 // Ignore control keys, which have non-zero length, as well as the backspace
@@ -159,6 +154,11 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 //allToDisplay.XYPosUpdate();
                 allToDisplay.CurrentPosUpdate();
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
+                if (cursor.getY() + IntMove < 0){
+                    MoveToTop();
+                }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
+                    MoveToBottom();
+                }
             }
 
         } else if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
@@ -170,15 +170,35 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
 
                 // Keyevent with up arrow key
                 UpArrowEvent();
+                if (cursor.getY() + IntMove < 0){
+                    MoveToTop();
+                }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
+                    MoveToBottom();
+                }
 
             } else if (code == KeyCode.DOWN) {
 
                 // Keyevent with down arrow key
                 DownArrowEvent();
+                if (cursor.getY() + IntMove < 0){
+                    MoveToTop();
+                }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
+                    MoveToBottom();
+                }
             } else if (code == KeyCode.LEFT){
                 LeftArrowEvent();
+                if (cursor.getY() + IntMove < 0){
+                    MoveToTop();
+                }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
+                    MoveToBottom();
+                }
             } else if (code == KeyCode.RIGHT){
                 RightArrowEvent();
+                if (cursor.getY() + IntMove < 0){
+                    MoveToTop();
+                }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
+                    MoveToBottom();
+                }
             }
         }
     }
@@ -386,12 +406,15 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     }
 
     private void MoveToTop(){
-        int PosY = (int) Math.round(cursor.getY());
+        int CurY = (int) Math.round(cursor.getY());
         double totalLine = LineStarterS.getTotalLine();
         double height = Math.round(allToDisplay.sentinal.nodeText.getLayoutBounds().getHeight());
         double totalHeight = totalLine * height;
-        double x = PosY/totalHeight * WINDOW_HEIGHT;
-        SBar.setValue(x/(totalHeight-WINDOW_HEIGHT)*WINDOW_HEIGHT);
+        double NumOfHideLine = Math.ceil(-(CurY + IntMove)/height);
+        double Curx = SBar.getValue();
+
+        double x = Curx - NumOfHideLine/(totalHeight-WINDOW_HEIGHT)*WINDOW_HEIGHT*height;
+        SBar.setValue(x);
     }
     private void MoveToBottom(){
         int CurY = (int) Math.round(cursor.getY());
@@ -401,8 +424,8 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         double NumOfHideLine = Math.ceil((CurY + IntMove - WINDOW_HEIGHT)/height);
         double Curx = SBar.getValue();
 
-        double x = Curx + NumOfHideLine/(totalHeight-WINDOW_HEIGHT)*WINDOW_HEIGHT;
-        SBar.setValue(x*height);
+        double x = Curx + NumOfHideLine/(totalHeight-WINDOW_HEIGHT)*WINDOW_HEIGHT*height;
+        SBar.setValue(x);
     }
 
     private void cursorSizeUpdate(double y){
