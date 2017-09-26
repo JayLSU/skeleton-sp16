@@ -5,10 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import jh61b.junit.In;
 
 import java.security.AlgorithmConstraints;
 
@@ -16,7 +18,7 @@ import java.security.AlgorithmConstraints;
 /** An EventHandler to handle keys that get pressed. */
 public class KeyEventHandler implements EventHandler<KeyEvent> {
     private static final int MARGIN = 5;
-
+    private static int WINDOW_HEIGHT = 500;
 
     private static final int STARTING_FONT_SIZE = 20;
 
@@ -28,8 +30,9 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
     private Group temproot;
     private static Rectangle cursor = new javafx.scene.shape.Rectangle(1, 24);
     private static LineStarterArray<FastLinkedList.Node> LineStarterS = new LineStarterArray<>();
-
-    public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R, LineStarterArray<FastLinkedList.Node> S) {
+    private static int IntMove = 0;
+    private ScrollBar SBar;
+    public KeyEventHandler(final Group root, String name, FastLinkedList InitialDis, Rectangle R, LineStarterArray<FastLinkedList.Node> S, ScrollBar B) {
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
         // that when the text is assigned a y-position, that position corresponds to the
         // highest position across all letters (for example, the top of a letter like "I", as
@@ -41,7 +44,7 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         cursor.setX(MARGIN);
         allToDisplay = InitialDis;
         LineStarterS = S;
-
+        SBar = B;
         WordWrap.warp(allToDisplay);
         LineStarterS = WordWrap.getStarterA();
         //allToDisplay.XYPosUpdate();
@@ -56,6 +59,10 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
         cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());*/
     }
 
+
+    public static void setMove(int M){
+        IntMove = M;
+    }
 
     private void AddContentToRoot(Group root, FastLinkedList InitialDis){
         if (!InitialDis.isEmpty()){
@@ -130,6 +137,16 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 allToDisplay.CurrentPosUpdate();
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
                 temproot.getChildren().add(allToDisplay.getCurrentNode().nodeText);
+                if (IntMove!=0){
+                    MoveToTop();
+                }else if(cursor.getY() + IntMove > WINDOW_HEIGHT){
+                    MoveToBottom();
+                }
+
+
+
+
+
                 keyEvent.consume();
             }else if (characterTyped.length() > 0 && characterTyped.charAt(0) == 8) {
                 // Ignore control keys, which have non-zero length, as well as the backspace
@@ -366,6 +383,26 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 cursorPosUpdate(allToDisplay.getCurrentPosX(), allToDisplay.getCurrentPosY());
             }
         }
+    }
+
+    private void MoveToTop(){
+        int PosY = (int) Math.round(cursor.getY());
+        double totalLine = LineStarterS.getTotalLine();
+        double height = Math.round(allToDisplay.sentinal.nodeText.getLayoutBounds().getHeight());
+        double totalHeight = totalLine * height;
+        double x = PosY/totalHeight * WINDOW_HEIGHT;
+        SBar.setValue(x/(totalHeight-WINDOW_HEIGHT)*WINDOW_HEIGHT);
+    }
+    private void MoveToBottom(){
+        int CurY = (int) Math.round(cursor.getY());
+        double totalLine = LineStarterS.getTotalLine();
+        double height = Math.round(allToDisplay.sentinal.nodeText.getLayoutBounds().getHeight());
+        double totalHeight = totalLine * height;
+        double NumOfHideLine = Math.ceil((CurY + IntMove - WINDOW_HEIGHT)/height);
+        double Curx = SBar.getValue();
+
+        double x = Curx + NumOfHideLine/(totalHeight-WINDOW_HEIGHT)*WINDOW_HEIGHT;
+        SBar.setValue(x*height);
     }
 
     private void cursorSizeUpdate(double y){

@@ -27,7 +27,7 @@ public class Editor extends Application {
     private static LineStarterArray<FastLinkedList.Node> starter = new LineStarterArray();
     private double ClickPosX = 0.0;
     private double ClickPosY = 0.0;
-
+    private int IntMove = 0;
     private int getDimensionInsideMargin(int outsideDimension) {
         return outsideDimension - MARGIN ;
     }
@@ -83,12 +83,13 @@ public class Editor extends Application {
                 int numOfOutWindowLine = numOfLine - numOfInWindowLine;
                 double TotalHeight = numOfLine * LineHeight;
                 double move =-Math.max(0,newValue.doubleValue()/WINDOW_HEIGHT*(TotalHeight-WINDOW_HEIGHT));
-                int Intmove = (int) (Math.round(move/LineHeight)*LineHeight);
-                textRoot.setLayoutY(Intmove);
+                IntMove = (int) (Math.floor(move/LineHeight)*LineHeight);
+                textRoot.setLayoutY(IntMove);
+                KeyEventHandler.setMove(IntMove);
             }
         });
 
-
+        //keyEventHandlerTemp.setMove(IntMove);
 
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(
@@ -112,7 +113,7 @@ public class Editor extends Application {
         // EventHandler subclasses must override the "handle" function, which will be called
         // by javafx.
         EventHandler<KeyEvent> keyEventHandler =
-                new KeyEventHandler(textRoot, filename, initialDisplay, cursor, starter);
+                new KeyEventHandler(textRoot, filename, initialDisplay, cursor, starter,scrollBar);
         // Register the event handler to be called for all KEY_PRESSED and KEY_TYPED events.
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
