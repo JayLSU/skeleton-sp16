@@ -92,13 +92,53 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
 	@Override
 	public V remove(K k){
-		throw new UnsupportedOperationException("Not supported operation!");
+		V value = get(root, k);
+		root =  remove(root, k);
+		return value;
+	}
+
+	private Node remove(Node x, K k){
+		if (x == null) return null;
+		int cmp = k.compareTo(x.k);
+		if (cmp < 0) x.left = remove(x.left, k);
+		else if (cmp > 0) x.right = remove(x.right, k);
+		else {
+			if (x.right == null) return x.left;
+			if (x.left == null) return x.right;
+			Node t = x;
+			x = min(t.right);
+			x.right = removeMin(t.right);
+			x.left = t.left;
+		}
+		x.size = size(x.left) + size(x.right) + 1;
+		return x;
+	}
+
+
+	public void removeMin(){
+		root = removeMin(root);
+	}
+	private Node removeMin(Node x){
+		if (x.left == null) return x.right;
+		x.left = removeMin(x.left);
+		x.size = size(x.left) + size(x.right) + 1;
+		return x;
 	}
 
 	@Override
 	public V remove(K k, V v){
 		throw new UnsupportedOperationException("Not supported operation!");
 	}
+
+	public K min(){
+		return min(root).k;
+	}
+
+	private Node min(Node x){
+		if(x.left == null) return x;
+		return min(x.left);
+	}
+
 	@Override
     public Iterator iterator() {
        throw new UnsupportedOperationException("Not supported operation!");
