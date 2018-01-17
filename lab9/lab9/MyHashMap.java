@@ -88,6 +88,7 @@ public class MyHashMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 		for (int i = 0; i < this.bins.length; i++) {
             this.bins[i] = new Entry<K, V>();
         }
+        this.currentSize = 0;
 	}
 
 
@@ -107,7 +108,7 @@ public class MyHashMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
 	@Override
 	public int size(){
-		return this.size;
+		return this.currentSize;
 	}
 
 
@@ -118,8 +119,9 @@ public class MyHashMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 			resize(this.resizefactor * this.size);
 		}
 
-		if(bins[i].get(key) != null) this.currentSize++;
+		if(bins[i].get(key) == null) this.currentSize++;
 		bins[i].put(key, value);
+		keySet = this.keySet();
 	}
 
 	private void resize(int s){
