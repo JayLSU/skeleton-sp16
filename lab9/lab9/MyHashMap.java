@@ -114,7 +114,7 @@ public class MyHashMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 	@Override
 	public void put(K key, V value){
 		int i = hash(key);
-		if (this.size > loadFactor * this.currentSize){
+		if (this.size < loadFactor * this.currentSize){
 			resize(this.resizefactor * this.size);
 		}
 
