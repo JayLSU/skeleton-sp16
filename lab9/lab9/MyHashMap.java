@@ -93,14 +93,12 @@ public class MyHashMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
 	@Override
 	public boolean containsKey(K key){
-		if (key == null) throw new IllegalArgumentException("Argument to containsKey() is null!");
 		return get(key) != null;
 	}
 
 
 	@Override
 	public V get(K key){
-		if (key == null) throw new IllegalArgumentException("Argument to get() is null!");
 		int i = hash(key);
 		return bins[i].get(key);
 	}
@@ -115,7 +113,6 @@ public class MyHashMap<K extends Comparable<K>, V> implements Map61B<K, V>{
 
 	@Override
 	public void put(K key, V value){
-		if (key == null) throw new IllegalArgumentException("Argument to get() is null!");
 		int i = hash(key);
 		if (this.size > loadFactor * this.currentSize){
 			resize(this.resizefactor * this.size);
