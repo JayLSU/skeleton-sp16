@@ -81,7 +81,7 @@ public class Percolation {
     }
 
     public boolean percolates(){
-        return true;
+        return sites.connected(VirtualTopIndex, VirtualBottomIndex);
     }
     /***
     public static void main(String[] args){
