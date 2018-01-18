@@ -13,7 +13,7 @@ public class Percolation {
         if(N<=0) throw new IllegalArgumentException("N cannot be less than or equal to 0.");
         this.N = N;
         this.sites = new WeightedQuickUnionUF(N * N + 2); // All sites on the grid + 2 virtual sites
-        this.VirtualTopIndex = N * N; // Virtual top site index
+        this.VirtualTopIndex = N * N ; // Virtual top site index
         this.VirtualBottomIndex = N * N + 1; // Virtual bottom site index
         this.openState = new boolean[N * N];
     }
@@ -30,15 +30,15 @@ public class Percolation {
 
     private int xyTo1D(int row, int col){
         if (validateXY(row, col)){
-            return (int)(N*(row-1) + col - 1);
+            return (int)(N*(row) + col);
         }
         throw new IndexOutOfBoundsException("Invalid indices input!");
     }
 
     private void connectWithOpenNeighbour(int row, int col){
-        if (row == 1) { sites.union(xyTo1D(row, col), VirtualTopIndex); } // First row open sites always connect with virtual top site
+        if (row == 0) { sites.union(xyTo1D(row, col), VirtualTopIndex); } // First row open sites always connect with virtual top site
 
-        if (row == this.N) {sites.union(xyTo1D(row, col), VirtualBottomIndex);} // Bottom row open sites always connect with virtual bottom site
+        if (row == this.N-1) {sites.union(xyTo1D(row, col), VirtualBottomIndex);} // Bottom row open sites always connect with virtual bottom site
 
         if (validateXY(row - 1, col) && isOpen(row - 1, col)){
             sites.union(xyTo1D(row - 1, col), xyTo1D(row, col));
@@ -59,7 +59,7 @@ public class Percolation {
     }
 
     private boolean validateXY(int row, int col){
-        return (row > 0 && col > 0 && row <= N && col <= N);
+        return (row >= 0 && col >= 0 && row < N && col < N);
     }
 
     public boolean isOpen(int row, int col){
