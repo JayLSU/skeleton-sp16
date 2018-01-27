@@ -23,6 +23,18 @@ public class TestSimpleOomage {
           meaning no two SimpleOomages should EVER have the same
           hashCode!
          */
+          SimpleOomage OOA = new SimpleOomage(0,0,0);
+          Set<Integer> hashset = new HashSet<Integer>();          
+          int hashcodeSize = 256*256*256;
+          for (int r=0; r<256;r++){
+            for (int g=0;g<256;g++){
+                for (int b=0;b<256;b++) {
+                    OOA = new SimpleOomage(r,g,b);
+                    hashset.add(OOA.hashCode());
+                }
+            }
+          }
+          assertEquals(hashcodeSize,hashset.size());
     }
 
     @Test
@@ -36,14 +48,14 @@ public class TestSimpleOomage {
         assertNotEquals(ooA, "ketchup");
     }
 
-    /*@Test
+    @Test
     public void testHashCodeAndEqualsConsistency() {
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
         SimpleOomage ooA2 = new SimpleOomage(5, 10, 20);
         HashSet<SimpleOomage> hashSet = new HashSet<SimpleOomage>();
         hashSet.add(ooA);
         assertTrue(hashSet.contains(ooA2));
-    }*/
+    }
 
     /** Calls tests for SimpleOomage. */
     public static void main(String[] args) {

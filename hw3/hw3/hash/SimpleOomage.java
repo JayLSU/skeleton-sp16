@@ -10,7 +10,7 @@ public class SimpleOomage implements Oomage {
     protected int blue;
 
     private static final double WIDTH = 0.01;
-    private static final boolean USE_PERFECT_HASH = false;
+    private static final boolean USE_PERFECT_HASH = true;
 
     
     @Override
@@ -30,7 +30,7 @@ public class SimpleOomage implements Oomage {
             return red + green + blue;
         } else {
             // TODO: Replace with a "perfect" hashing function.
-            return 0;
+            return 256*256*red+256*green+blue;
         }
     }
 
