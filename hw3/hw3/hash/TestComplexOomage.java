@@ -31,7 +31,8 @@ public class TestComplexOomage {
         int M = 10;
         int[] bucketSize = new int[M];
         for (ComplexOomage o : oomages){
-        	int bucketNum = (o.hashCode() & 0x7FFFFFFF) % M;
+            int hashcode = o.hashCode();
+        	int bucketNum = (hashcode & 0x7FFFFFFF) % M;
         	bucketSize[bucketNum] += 1;
         }
         for (int i=0; i < M; i++){
@@ -59,10 +60,42 @@ public class TestComplexOomage {
     public void testWithDeadlyParams() {
         /* TODO: Create a Set that shows the flaw in the hashCode function.
          */
-        HashSet<ComplexOomage> oomages = new HashSet<ComplexOomage>();
+        Set<ComplexOomage> oomages = new HashSet<ComplexOomage>();
 
+        int N = 2000;
+        int LastDigit = 2;
+
+        for (int i = 0; i < N; i += 1) {
+            int X = StdRandom.uniform(1, N);
+            List<Integer> params = new ArrayList<Integer>(X);
+
+            for (int j = 0; j < X; j++) {
+                int Y = StdRandom.uniform(0, 255);
+                params.add(Y);
+            }
+
+            params.add(LastDigit);
+            ComplexOomage oomage = new ComplexOomage(params);
+            oomages.add(oomage);
+        }
+        // visualize(oomages, 10, 0.5);
         assertTrue(haveNiceHashCodeSpread(oomages));
     }
+
+
+    /** private static void visualize(Set<ComplexOomage> set, int M, double scale) {
+        HashTableDrawingUtility.drawLabels(M);
+        int bucketsStartPos = 1;
+        int bucketsPosDis = 1;
+        int[] bucketsSize = new int[M];
+        for (ComplexOomage o : set){
+            int bucketsNum = (o.hashCode() & 0x7FFFFFFF) % M;
+            bucketsSize[bucketsNum] += 1;
+            o.draw(HashTableDrawingUtility.xCoord(bucketsStartPos
+              + bucketsPosDis * bucketsSize[bucketsNum]), HashTableDrawingUtility.yCoord(bucketsNum,M), scale);
+        }
+    }*/
+         
 
     /** Calls tests for SimpleOomage. */
     public static void main(String[] args) {
