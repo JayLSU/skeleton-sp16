@@ -21,7 +21,8 @@ public class HashTableVisualizer {
         HashTableDrawingUtility.setScale(scale);
         Set<Oomage> oomies = new HashSet<Oomage>();
         for (int i = 0; i < N; i += 1) {
-            oomies.add(SimpleOomage.randomSimpleOomage());
+            //oomies.add(SimpleOomage.randomSimpleOomage());
+            oomies.add(ComplexOomage.randomComplexOomage());
         }
         visualize(oomies, M, scale);
     }
